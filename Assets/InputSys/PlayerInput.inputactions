@@ -1,0 +1,51 @@
+{
+    "name": "PlayerInput",
+    "maps": [
+        {
+            "name": "Move",
+            "id": "e0ecc853-7e89-4e3a-a3cb-c3edb6019f05",
+            "actions": [
+                {
+                    "name": "Head",
+                    "type": "Value",
+                    "id": "2273e5d5-03ed-4b30-aa0a-cfb41abe16da",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "79891e1f-8766-447b-a433-3425ad60bb65",
+                    "path": "<Mouse>/pointerId",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KM",
+                    "action": "Head",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "KM",
+            "bindingGroup": "KM",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
