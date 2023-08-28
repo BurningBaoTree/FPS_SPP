@@ -31,7 +31,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Head"",
                     ""type"": ""Value"",
                     ""id"": ""2273e5d5-03ed-4b30-aa0a-cfb41abe16da"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -50,7 +50,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""79891e1f-8766-447b-a433-3425ad60bb65"",
-                    ""path"": ""<Mouse>/pointerId"",
+                    ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KM"",
@@ -83,7 +83,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""6059d2e2-217d-4217-acdd-f6a9ab7d1ac0"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -94,7 +94,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""ec2b4236-2120-4e2b-9436-a68a978fa584"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
