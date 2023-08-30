@@ -44,6 +44,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""23b64d14-913e-4a66-8fd8-73d091adcc3e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -75,7 +84,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KM"",
                     ""action"": ""WASD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -86,7 +95,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KM"",
                     ""action"": ""WASD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -97,7 +106,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KM"",
                     ""action"": ""WASD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -108,10 +117,21 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KM"",
                     ""action"": ""WASD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""537d569f-ecc3-4c76-b878-fffa321e8fb9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -139,6 +159,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Move = asset.FindActionMap("Move", throwIfNotFound: true);
         m_Move_Head = m_Move.FindAction("Head", throwIfNotFound: true);
         m_Move_WASD = m_Move.FindAction("WASD", throwIfNotFound: true);
+        m_Move_Jump = m_Move.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -202,12 +223,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IMoveActions> m_MoveActionsCallbackInterfaces = new List<IMoveActions>();
     private readonly InputAction m_Move_Head;
     private readonly InputAction m_Move_WASD;
+    private readonly InputAction m_Move_Jump;
     public struct MoveActions
     {
         private @PlayerInput m_Wrapper;
         public MoveActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Head => m_Wrapper.m_Move_Head;
         public InputAction @WASD => m_Wrapper.m_Move_WASD;
+        public InputAction @Jump => m_Wrapper.m_Move_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Move; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -223,6 +246,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @WASD.started += instance.OnWASD;
             @WASD.performed += instance.OnWASD;
             @WASD.canceled += instance.OnWASD;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IMoveActions instance)
@@ -233,6 +259,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @WASD.started -= instance.OnWASD;
             @WASD.performed -= instance.OnWASD;
             @WASD.canceled -= instance.OnWASD;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IMoveActions instance)
@@ -263,5 +292,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnHead(InputAction.CallbackContext context);
         void OnWASD(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }
