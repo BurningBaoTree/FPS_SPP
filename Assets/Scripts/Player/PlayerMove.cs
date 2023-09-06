@@ -90,7 +90,7 @@ public class PlayerMove : MonoBehaviour
         posi.z = MoveDir.y;
 	}
 
-    private void Update()
+    private void FixedUpdate()
     {
 		Debug.Log($"{MoveDir.y}");
 		if (MoveDir.y > 0.5f)
@@ -107,7 +107,7 @@ public class PlayerMove : MonoBehaviour
 		}
 		this.transform.rotation = Quaternion.Euler(0, yxis, 0);
 		Cameratransform.rotation = Quaternion.Euler(xxis, yxis, 0);
-		HeadJoint.rotation = Quaternion.Euler(xxis, yxis, 0);
+        HeadJoint.rotation = Quaternion.Euler(xxis, 0, 0);
         transform.Translate(speed*Time.deltaTime*posi);
 	}
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
