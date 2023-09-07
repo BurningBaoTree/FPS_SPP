@@ -761,10 +761,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1115162090, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 2378878510221559959, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -808,10 +804,6 @@ PrefabInstance:
     - target: {fileID: 2378878510221559959, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2627840394602203762, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
-      propertyPath: m_Lens.NearClipPlane
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3046871833755341357, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
       propertyPath: m_Name
@@ -2292,7 +2284,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh63834
+  m_Name: pb_Mesh50122
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
