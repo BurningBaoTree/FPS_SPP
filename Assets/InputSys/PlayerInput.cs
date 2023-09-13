@@ -53,6 +53,87 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drop"",
+                    ""type"": ""Button"",
+                    ""id"": ""e29df032-26ec-41d7-afbe-2832ed596814"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GearChange1"",
+                    ""type"": ""Button"",
+                    ""id"": ""7051371b-e026-41e6-994b-9cb0de18634b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GearChange2"",
+                    ""type"": ""Button"",
+                    ""id"": ""227387e3-5611-40e0-b5d1-f8e10350b475"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GearChange3"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d3f351f-6198-4538-91dc-e105b7b705dd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GearChange4"",
+                    ""type"": ""Button"",
+                    ""id"": ""d153e0ec-9ade-4ac8-8c05-9b4fb1823e76"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GearChange5"",
+                    ""type"": ""Button"",
+                    ""id"": ""447c4500-4fdd-409d-8f9c-58305038f21c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""f080156a-28f1-4d00-9135-5c419ed9decd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee796a3f-d0a0-4837-b800-ea02d3cb0e62"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Button"",
+                    ""id"": ""006e0b6e-ceff-439c-9564-5459bc394d14"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +213,173 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11471e11-06cc-4582-886c-ae359644ce47"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9df3b67a-ab44-4311-a887-4f90974eb6b0"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""GearChange1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee4b00d8-2003-4b05-9b9b-691834d04c1f"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""GearChange2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be75c157-af49-48bf-9490-8e1783ee5b65"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""GearChange3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7460e6e1-0e61-4ada-90ee-3e04c945b431"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""GearChange4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd3e7054-3a95-4048-8318-9505fc05c8f9"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""GearChange5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a551abaa-48c7-4f79-93ca-24065f01cd11"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3715b62-d7fd-4570-8075-d4a318673fb8"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""116585c3-42b0-4837-b630-bf0ed9a60df4"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Ability"",
+            ""id"": ""bc67089c-3953-42e0-b465-0826f473922a"",
+            ""actions"": [
+                {
+                    ""name"": ""ability1"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f8da2db-7d70-4fd8-8b7b-1104fbec6164"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ability2"",
+                    ""type"": ""Button"",
+                    ""id"": ""93f08e9f-2417-47cf-9a1b-e88350e3ee8a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ult"",
+                    ""type"": ""Button"",
+                    ""id"": ""60979237-f178-4bfa-a810-bac2a3d5cc83"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""562d70a1-ed04-4c61-a586-64f316e4ecca"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ability1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7981bc75-67e0-4ebd-a803-e3aa0a4de0e9"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ability2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9589531-45ab-46a4-995c-f91457d46600"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ult"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -160,6 +408,20 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Move_Head = m_Move.FindAction("Head", throwIfNotFound: true);
         m_Move_WASD = m_Move.FindAction("WASD", throwIfNotFound: true);
         m_Move_Jump = m_Move.FindAction("Jump", throwIfNotFound: true);
+        m_Move_Drop = m_Move.FindAction("Drop", throwIfNotFound: true);
+        m_Move_GearChange1 = m_Move.FindAction("GearChange1", throwIfNotFound: true);
+        m_Move_GearChange2 = m_Move.FindAction("GearChange2", throwIfNotFound: true);
+        m_Move_GearChange3 = m_Move.FindAction("GearChange3", throwIfNotFound: true);
+        m_Move_GearChange4 = m_Move.FindAction("GearChange4", throwIfNotFound: true);
+        m_Move_GearChange5 = m_Move.FindAction("GearChange5", throwIfNotFound: true);
+        m_Move_Use = m_Move.FindAction("Use", throwIfNotFound: true);
+        m_Move_Fire = m_Move.FindAction("Fire", throwIfNotFound: true);
+        m_Move_Zoom = m_Move.FindAction("Zoom", throwIfNotFound: true);
+        // Ability
+        m_Ability = asset.FindActionMap("Ability", throwIfNotFound: true);
+        m_Ability_ability1 = m_Ability.FindAction("ability1", throwIfNotFound: true);
+        m_Ability_ability2 = m_Ability.FindAction("ability2", throwIfNotFound: true);
+        m_Ability_Ult = m_Ability.FindAction("Ult", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -224,6 +486,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Move_Head;
     private readonly InputAction m_Move_WASD;
     private readonly InputAction m_Move_Jump;
+    private readonly InputAction m_Move_Drop;
+    private readonly InputAction m_Move_GearChange1;
+    private readonly InputAction m_Move_GearChange2;
+    private readonly InputAction m_Move_GearChange3;
+    private readonly InputAction m_Move_GearChange4;
+    private readonly InputAction m_Move_GearChange5;
+    private readonly InputAction m_Move_Use;
+    private readonly InputAction m_Move_Fire;
+    private readonly InputAction m_Move_Zoom;
     public struct MoveActions
     {
         private @PlayerInput m_Wrapper;
@@ -231,6 +502,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Head => m_Wrapper.m_Move_Head;
         public InputAction @WASD => m_Wrapper.m_Move_WASD;
         public InputAction @Jump => m_Wrapper.m_Move_Jump;
+        public InputAction @Drop => m_Wrapper.m_Move_Drop;
+        public InputAction @GearChange1 => m_Wrapper.m_Move_GearChange1;
+        public InputAction @GearChange2 => m_Wrapper.m_Move_GearChange2;
+        public InputAction @GearChange3 => m_Wrapper.m_Move_GearChange3;
+        public InputAction @GearChange4 => m_Wrapper.m_Move_GearChange4;
+        public InputAction @GearChange5 => m_Wrapper.m_Move_GearChange5;
+        public InputAction @Use => m_Wrapper.m_Move_Use;
+        public InputAction @Fire => m_Wrapper.m_Move_Fire;
+        public InputAction @Zoom => m_Wrapper.m_Move_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Move; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -249,6 +529,33 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Drop.started += instance.OnDrop;
+            @Drop.performed += instance.OnDrop;
+            @Drop.canceled += instance.OnDrop;
+            @GearChange1.started += instance.OnGearChange1;
+            @GearChange1.performed += instance.OnGearChange1;
+            @GearChange1.canceled += instance.OnGearChange1;
+            @GearChange2.started += instance.OnGearChange2;
+            @GearChange2.performed += instance.OnGearChange2;
+            @GearChange2.canceled += instance.OnGearChange2;
+            @GearChange3.started += instance.OnGearChange3;
+            @GearChange3.performed += instance.OnGearChange3;
+            @GearChange3.canceled += instance.OnGearChange3;
+            @GearChange4.started += instance.OnGearChange4;
+            @GearChange4.performed += instance.OnGearChange4;
+            @GearChange4.canceled += instance.OnGearChange4;
+            @GearChange5.started += instance.OnGearChange5;
+            @GearChange5.performed += instance.OnGearChange5;
+            @GearChange5.canceled += instance.OnGearChange5;
+            @Use.started += instance.OnUse;
+            @Use.performed += instance.OnUse;
+            @Use.canceled += instance.OnUse;
+            @Fire.started += instance.OnFire;
+            @Fire.performed += instance.OnFire;
+            @Fire.canceled += instance.OnFire;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         private void UnregisterCallbacks(IMoveActions instance)
@@ -262,6 +569,33 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Drop.started -= instance.OnDrop;
+            @Drop.performed -= instance.OnDrop;
+            @Drop.canceled -= instance.OnDrop;
+            @GearChange1.started -= instance.OnGearChange1;
+            @GearChange1.performed -= instance.OnGearChange1;
+            @GearChange1.canceled -= instance.OnGearChange1;
+            @GearChange2.started -= instance.OnGearChange2;
+            @GearChange2.performed -= instance.OnGearChange2;
+            @GearChange2.canceled -= instance.OnGearChange2;
+            @GearChange3.started -= instance.OnGearChange3;
+            @GearChange3.performed -= instance.OnGearChange3;
+            @GearChange3.canceled -= instance.OnGearChange3;
+            @GearChange4.started -= instance.OnGearChange4;
+            @GearChange4.performed -= instance.OnGearChange4;
+            @GearChange4.canceled -= instance.OnGearChange4;
+            @GearChange5.started -= instance.OnGearChange5;
+            @GearChange5.performed -= instance.OnGearChange5;
+            @GearChange5.canceled -= instance.OnGearChange5;
+            @Use.started -= instance.OnUse;
+            @Use.performed -= instance.OnUse;
+            @Use.canceled -= instance.OnUse;
+            @Fire.started -= instance.OnFire;
+            @Fire.performed -= instance.OnFire;
+            @Fire.canceled -= instance.OnFire;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         public void RemoveCallbacks(IMoveActions instance)
@@ -279,6 +613,68 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         }
     }
     public MoveActions @Move => new MoveActions(this);
+
+    // Ability
+    private readonly InputActionMap m_Ability;
+    private List<IAbilityActions> m_AbilityActionsCallbackInterfaces = new List<IAbilityActions>();
+    private readonly InputAction m_Ability_ability1;
+    private readonly InputAction m_Ability_ability2;
+    private readonly InputAction m_Ability_Ult;
+    public struct AbilityActions
+    {
+        private @PlayerInput m_Wrapper;
+        public AbilityActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ability1 => m_Wrapper.m_Ability_ability1;
+        public InputAction @ability2 => m_Wrapper.m_Ability_ability2;
+        public InputAction @Ult => m_Wrapper.m_Ability_Ult;
+        public InputActionMap Get() { return m_Wrapper.m_Ability; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AbilityActions set) { return set.Get(); }
+        public void AddCallbacks(IAbilityActions instance)
+        {
+            if (instance == null || m_Wrapper.m_AbilityActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_AbilityActionsCallbackInterfaces.Add(instance);
+            @ability1.started += instance.OnAbility1;
+            @ability1.performed += instance.OnAbility1;
+            @ability1.canceled += instance.OnAbility1;
+            @ability2.started += instance.OnAbility2;
+            @ability2.performed += instance.OnAbility2;
+            @ability2.canceled += instance.OnAbility2;
+            @Ult.started += instance.OnUlt;
+            @Ult.performed += instance.OnUlt;
+            @Ult.canceled += instance.OnUlt;
+        }
+
+        private void UnregisterCallbacks(IAbilityActions instance)
+        {
+            @ability1.started -= instance.OnAbility1;
+            @ability1.performed -= instance.OnAbility1;
+            @ability1.canceled -= instance.OnAbility1;
+            @ability2.started -= instance.OnAbility2;
+            @ability2.performed -= instance.OnAbility2;
+            @ability2.canceled -= instance.OnAbility2;
+            @Ult.started -= instance.OnUlt;
+            @Ult.performed -= instance.OnUlt;
+            @Ult.canceled -= instance.OnUlt;
+        }
+
+        public void RemoveCallbacks(IAbilityActions instance)
+        {
+            if (m_Wrapper.m_AbilityActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IAbilityActions instance)
+        {
+            foreach (var item in m_Wrapper.m_AbilityActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_AbilityActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public AbilityActions @Ability => new AbilityActions(this);
     private int m_KMSchemeIndex = -1;
     public InputControlScheme KMScheme
     {
@@ -293,5 +689,20 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnHead(InputAction.CallbackContext context);
         void OnWASD(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnDrop(InputAction.CallbackContext context);
+        void OnGearChange1(InputAction.CallbackContext context);
+        void OnGearChange2(InputAction.CallbackContext context);
+        void OnGearChange3(InputAction.CallbackContext context);
+        void OnGearChange4(InputAction.CallbackContext context);
+        void OnGearChange5(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
+    }
+    public interface IAbilityActions
+    {
+        void OnAbility1(InputAction.CallbackContext context);
+        void OnAbility2(InputAction.CallbackContext context);
+        void OnUlt(InputAction.CallbackContext context);
     }
 }

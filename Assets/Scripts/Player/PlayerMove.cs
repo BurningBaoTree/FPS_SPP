@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
+
+[RequireComponent(typeof(Equiped))]
 public class PlayerMove : MonoBehaviour
 {
+    Equiped eqiSys;
     [Header("조인트 리스트")]
     [Tooltip("머리 조인트를 이곳에 넣으세요")]
     public Transform HeadJoint;
@@ -28,31 +31,37 @@ public class PlayerMove : MonoBehaviour
 	float xxis;
     float yxis;
 
+    float dropgage = 0f;
+    public float maxDropgage = 10f;
+
     Animator animator;
 
     private void Awake()
     {
 		rig = GetComponent<Rigidbody>();
 		playerinput = new PlayerInput();
+		xxis = 0;
+        yxis = 0;
+		animator = GetComponent<Animator>();
+        eqiSys = GetComponent<Equiped>();
+    }
+
+    private void OnEnable()
+    {
         playerinput.Move.Enable();
         playerinput.Move.Head.performed += HeadBanging;
         playerinput.Move.WASD.performed += MoveAction;
         playerinput.Move.WASD.canceled += MoveAction;
         playerinput.Move.Jump.performed += JumpAction;
-		playerinput.Move.Jump.canceled += JumpAction;
-		xxis = 0;
-        yxis = 0;
-		animator = GetComponent<Animator>();
-	}
 
-	private void JumpAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
-	{
-        rig.AddForce(Vector3.up*5, ForceMode.Impulse);
-	}
-
-	private void OnDisable()
+        playerinput.Move.Drop.performed += DropReady;
+        playerinput.Move.Drop.canceled += DropActive;
+    }
+    private void OnDisable()
     {
-		playerinput.Move.Jump.canceled -= JumpAction;
+        playerinput.Move.Drop.canceled -= DropActive;
+        playerinput.Move.Drop.performed -= DropReady;
+
 		playerinput.Move.Jump.performed -= JumpAction;
 		playerinput.Move.WASD.canceled -= MoveAction;
         playerinput.Move.WASD.performed -= MoveAction;
@@ -81,6 +90,24 @@ public class PlayerMove : MonoBehaviour
 		yxis = ClampAngle(yis, float.MinValue, float.MaxValue);
     }
 
+    private void DropActive(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void DropReady(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        dropgage += Time.deltaTime;
+        if (dropgage > maxDropgage)
+        {
+           
+        }
+    }
+
+    private void JumpAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        rig.AddForce(Vector3.up * 5, ForceMode.Impulse);
+    }
     private void MoveAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         Vector2 move = context.ReadValue<Vector2>();
@@ -91,7 +118,6 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-		Debug.Log($"{MoveDir.y}");
 		if (MoveDir.y > 0.5f)
 		{
 			animator.SetInteger("walk", 1);
@@ -123,4 +149,8 @@ public class PlayerMove : MonoBehaviour
 		if (lfAngle > lfMax) lfAngle = lfMax;
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
+    void DropThings()
+    {
+
+    }
 }
