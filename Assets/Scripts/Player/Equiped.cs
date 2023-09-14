@@ -10,38 +10,47 @@ public class Equiped : MonoBehaviour
 
     Animator animator;
 
-    public List<Equipments> EquiptableList = new List<Equipments>(5);
+    public Equipments[] equiptableList;
 
     public AbilityBase ability1;
     public AbilityBase ability2;
     public AbilityBase Ult;
 
-    public Quaternion weaponrote;
+    public Vector3 weaponPos;
 
-    int previous = 0;
+    public int previous;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        HoldThis(1);
+        equiptableList = new Equipments[6];
+    }
+    private void Start()
+    {
+        animator.SetLayerWeight(2, 0);
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Weapon"))
         {
-            foreach(var obj in EquiptableList)
+            for (int i = 0; i < 5;)
             {
-                if (obj == null) 
+                if (equiptableList[i] == null)
                 {
-                    EquiptableList.Add(collision.gameObject.GetComponent<Equipments>());
-                    obj.col.enabled = false;
-                    obj.rig.isKinematic = true;
-                    obj.transform.parent = RightWeaponSlot.transform;
+                    equiptableList[i] = collision.gameObject.GetComponent<Equipments>();
+                    equiptableList[i].transform.parent = RightWeaponSlot.transform;
+                    equiptableList[i].IsEquiped.Invoke();
+                    HoldThis(i);
                     break;
+                }
+                else if (equiptableList[i] != null)
+                {
+                    i++;
                 }
                 else
                 {
-                    Debug.Log("장비가 꽉 참");
+                    Debug.Log("더이상 장비 추가 불가");
+                    break;
                 }
             }
         }
@@ -49,28 +58,44 @@ public class Equiped : MonoBehaviour
 
     public void HoldThis(int num)
     {
-        if (EquiptableList[num] != null)
+        if(equiptableList[num] != null && equiptableList[previous] == null)
         {
-            EquiptableList[num].gameObject.SetActive(true);
+            equiptableList[num].gameObject.SetActive(true);
             previous = num;
+            animator.SetLayerWeight(2, 1);
         }
-        else if(num == previous)
+        else if (equiptableList[num] != null && num != previous)
         {
-            EquiptableList[num].gameObject.SetActive(false);
+            equiptableList[num].gameObject.SetActive(true);
+            equiptableList[previous].gameObject.SetActive(false);
+            previous = num;
+            animator.SetLayerWeight(2, 1);
+        }
+        else if (equiptableList[num] == null)
+        {
             previous = 0;
+            animator.SetLayerWeight(2, 0);
+        }
+        else if (num == previous)
+        {
+            equiptableList[num].gameObject.SetActive(false);
+            previous = 5;
+            animator.SetLayerWeight(2, 0);
         }
         else
         {
-            EquiptableList[num].gameObject.SetActive(false);
-            previous = 0;
-            animator.SetLayerWeight(3, 0);
+
         }
     }
-    public void DropThis(Equipments obj)
+    public void DropThis()
     {
-        //들고있는 무기 및 장비를 버린다. 버릴때 콜라이더를 활성화 시키고 리지디 바디를 다이나믹으로(방금 막 떠오른 방법 : 최상위에 클래스를 하나 더 만들어서 모든 장비용 클래스를 만든다)
-        obj.transform.parent = null;
-        
+        if(equiptableList[previous] != null)
+        {
+            equiptableList[previous].transform.parent = null;
+            equiptableList[previous].DisEquiped.Invoke();
+            equiptableList[previous] = null;
+            animator.SetLayerWeight(2, 0);
+        }
     }
 
 }
