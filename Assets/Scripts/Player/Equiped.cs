@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -27,24 +28,32 @@ public class Equiped : MonoBehaviour
     public Transform leftTartge;
 
     int layerState = 0;
+    public float animatorLayerWeightRifle = 0;
+    float changingTime=0f;
+    Action animatorLayerWeight;
 
     private void Awake()
     {
+        animatorLayerWeight = nullablerVoid;
         animator = GetComponent<Animator>();
         equiptableList = new Equipments[6];
     }
     private void OnEnable()
     {
-        coolsys = CoolTimeSys.Inst;   
+        coolsys = CoolTimeSys.Inst;
     }
     private void Start()
     {
         animator.SetLayerWeight(1, 0);
     }
+    private void Update()
+    {
+        animatorLayerWeight();
+    }
 
     private void OnAnimatorIK()
     {
-        if (layerState == 1) 
+        if (layerState == 1)
         {
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
             animator.SetIKPosition(AvatarIKGoal.RightHand, rightTartge.position);
@@ -63,7 +72,7 @@ public class Equiped : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Weapon"))
+        if (collision.collider.CompareTag("Weapon")&&!coolsys.coolActive1)
         {
             for (int i = 0; i < 5;)
             {
@@ -90,45 +99,56 @@ public class Equiped : MonoBehaviour
 
     public void HoldThis(int num)
     {
-        if(!coolsys.coolActive1)
-        {
-            if (equiptableList[num] != null && equiptableList[previous] == null)
-            {
-                equiptableList[num].gameObject.SetActive(true);
-                previous = num;
-                animator.SetLayerWeight(1, 1);
-                layerState = 1;
-            }
-            else if (equiptableList[num] != null && num != previous)
-            {
-                equiptableList[num].gameObject.SetActive(true);
-                equiptableList[previous].gameObject.SetActive(false);
-                previous = num;
-                animator.SetLayerWeight(1, 1);
-                layerState = 1;
-            }
-            else if (equiptableList[num] == null)
-            {
-                previous = 0;
-                animator.SetLayerWeight(1, 0);
-                layerState = 0;
-            }
-            else if (num == previous)
-            {
-                equiptableList[num].gameObject.SetActive(false);
-                previous = 5;
-                animator.SetLayerWeight(1, 0);
-                layerState = 0;
-            }
-            else
-            {
 
-            }
+        if (equiptableList[num] != null && equiptableList[previous] == null)
+        {
+            equiptableList[num].gameObject.SetActive(true);
+            previous = num;
+            changingTime = 2;
+            animatorLayerWeight += AnimatorLayerSetter1;
+            layerState = 1;
+        }
+        else if (equiptableList[num] != null && num != previous)
+        {
+            equiptableList[num].gameObject.SetActive(true);
+            equiptableList[previous].gameObject.SetActive(false);
+            previous = num;
+            changingTime = 2;
+            animatorLayerWeight += AnimatorLayerSetter1;
+            layerState = 1;
+        }
+        else if (equiptableList[num] == null)
+        {
+            previous = 0;
+            animator.SetLayerWeight(1, 0);
+            layerState = 0;
+        }
+        else if (num == previous)
+        {
+            equiptableList[num].gameObject.SetActive(false);
+            previous = 5;
+            animator.SetLayerWeight(1, 0);
+            layerState = 0;
+        }
+        else
+        {
+
+        }
+    }
+
+    void AnimatorLayerSetter1()
+    {
+        animatorLayerWeightRifle = 0;
+        animatorLayerWeightRifle += Time.deltaTime/ changingTime;
+        animator.SetLayerWeight(1, animatorLayerWeightRifle);
+        if(animatorLayerWeightRifle >= 1)
+        {
+        animatorLayerWeight -= AnimatorLayerSetter1;
         }
     }
     public void DropThis()
     {
-        if(equiptableList[previous] != null)
+        if (equiptableList[previous] != null)
         {
             coolsys.cooltimeStart(1, 0.5f);
             equiptableList[previous].transform.parent = null;
@@ -138,5 +158,8 @@ public class Equiped : MonoBehaviour
             layerState = 0;
         }
     }
+    void nullablerVoid()
+    {
 
+    }
 }

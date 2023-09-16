@@ -69,7 +69,7 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
         {
             coolActive4 = false;
             cooltimer4 = 0;
-            UpdateCooltimer -= coolTimerSys3;
+            UpdateCooltimer -= coolTimerSys4;
         }
     }
     void coolTimerSys5()
@@ -78,7 +78,7 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
         {
             coolActive3 = false;
             cooltimer5 = 0;
-            UpdateCooltimer -= coolTimerSys3;
+            UpdateCooltimer -= coolTimerSys5;
         }
     }
     public void cooltimeStart(int cas, float time)
@@ -90,26 +90,46 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
         switch (cas)
         {
             case 1:
+                if (!coolActive1)
+                {
+                    UpdateCooltimer += AllCheckTime;
+                }
                 coolActive1 = true;
                 UpdateCooltimer += coolTimerSys1;
                 cooltimer1 = timecounter + time;
                 break;
             case 2:
+                if (!coolActive2)
+                {
+                    UpdateCooltimer += AllCheckTime;
+                }
                 coolActive2 = true;
                 UpdateCooltimer += coolTimerSys2;
                 cooltimer2 = timecounter + time;
                 break;
             case 3:
+                if (!coolActive3)
+                {
+                    UpdateCooltimer += AllCheckTime;
+                }
                 coolActive3 = true;
                 UpdateCooltimer += coolTimerSys3;
                 cooltimer3 = timecounter + time;
                 break;
             case 4:
+                if (!coolActive4)
+                {
+                    UpdateCooltimer += AllCheckTime;
+                }
                 coolActive4 = true;
                 UpdateCooltimer += coolTimerSys4;
                 cooltimer4 = timecounter + time;
                 break;
             case 5:
+                if (!coolActive5)
+                {
+                    UpdateCooltimer += AllCheckTime;
+                }
                 coolActive4 = true;
                 UpdateCooltimer += coolTimerSys5;
                 cooltimer5 = timecounter + time;
@@ -117,10 +137,6 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
             default:
                 Debug.LogWarning("쿨타임 시작 실패");
                 break;
-        }
-        if (timecounter != 0)
-        {
-            UpdateCooltimer += AllCheckTime;
         }
     }
     private void AllCheckTime()

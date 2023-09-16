@@ -177,7 +177,6 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log($"{dropgage} / {maxDropgage}");
         dropgage += drag/3f;
         if (dropgage > maxDropgage)
         {
