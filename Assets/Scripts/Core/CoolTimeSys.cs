@@ -83,6 +83,10 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
     }
     public void cooltimeStart(int cas, float time)
     {
+        if (!coolActive1 && !coolActive2 && !coolActive3 && !coolActive4 && !coolActive5)
+        {
+            UpdateCooltimer += timecouting;
+        }
         switch (cas)
         {
             case 1:
@@ -114,9 +118,8 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
                 Debug.LogWarning("쿨타임 시작 실패");
                 break;
         }
-        if (!coolActive1 && !coolActive2 && !coolActive3 && !coolActive4 && !coolActive5)
+        if (timecounter != 0)
         {
-            UpdateCooltimer += timecouting;
             UpdateCooltimer += AllCheckTime;
         }
     }
