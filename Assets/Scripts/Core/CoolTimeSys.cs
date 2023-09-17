@@ -53,7 +53,7 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
             cooltimer2 = 0;
             UpdateCooltimer -= coolTimerSys2;
         }
-    }
+    } 
     void coolTimerSys3()
     {
         if (cooltimer3 <= timecounter)

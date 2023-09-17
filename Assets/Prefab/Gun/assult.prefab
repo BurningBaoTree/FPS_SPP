@@ -78,6 +78,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rig: {fileID: 0}
   col: {fileID: 0}
+  timecounter: 0
+  cooltimer1: 0
+  cooltimer2: 0
+  cooltimer3: 0
+  cooltimer4: 0
+  cooltimer5: 0
+  coolActive1: 0
+  coolActive2: 0
+  coolActive3: 0
+  coolActive4: 0
+  coolActive5: 0
 --- !u!1001 &7249989168914563736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,6 +138,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d11544a1b641b924f87547dd2b1ed733, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8513424388201257645, guid: d11544a1b641b924f87547dd2b1ed733, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d11544a1b641b924f87547dd2b1ed733, type: 3}

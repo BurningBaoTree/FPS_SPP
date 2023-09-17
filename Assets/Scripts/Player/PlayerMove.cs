@@ -87,27 +87,22 @@ public class PlayerMove : MonoBehaviour
 
     private void WeaponSellect1(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        Debug.Log("1");
         eqiSys.HoldThis(0);
     }
     private void WeaponSellect2(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        Debug.Log("2");
         eqiSys.HoldThis(1);
     }
     private void WeaponSellect3(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        Debug.Log("3");
         eqiSys.HoldThis(2);
     }
     private void WeaponSellect4(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        Debug.Log("4");
         eqiSys.HoldThis(3);
     }
     private void WeaponSellect5(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        Debug.Log("5");
         eqiSys.HoldThis(4);
     }
     private void DropCanceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
