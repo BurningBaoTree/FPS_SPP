@@ -72,7 +72,7 @@ public class Equiped : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Weapon") && !coolsys.coolActive1)
+        if (collision.collider.CompareTag("Weapon") && coolsys.coolclocks[1].coolEnd)
         {
             for (int i = 0; i < 5;)
             {
@@ -160,12 +160,13 @@ public class Equiped : MonoBehaviour
     {
         if (equiptableList[previous] != null)
         {
-            coolsys.cooltimeStart(1, 0.5f);
+            coolsys.CoolTimeStart(1, 0.5f);
             equiptableList[previous].transform.parent = null;
             equiptableList[previous].DisEquiped.Invoke();
             equiptableList[previous] = null;
             animator.SetLayerWeight(1, 0);
             layerState = 0;
+            previous = 5;
         }
     }
     void nullablerVoid()

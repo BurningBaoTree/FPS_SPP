@@ -1,168 +1,96 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
+
+[Serializable]
+public struct coolClock
+{
+    public float time;
+    public bool coolStart;
+    public bool coolEnd;
+}
 public class CoolTimeSys : Singleton<CoolTimeSys>
 {
-    Action UpdateCooltimer;
-
-    public float timecounter = 0;
-
-    public float cooltimer1 = 0;
-    public float cooltimer2 = 0;
-    public float cooltimer3 = 0;
-    public float cooltimer4 = 0;
-    public float cooltimer5 = 0;
-
-    public bool coolActive1 = false;
-    public bool coolActive2 = false;
-    public bool coolActive3 = false;
-    public bool coolActive4 = false;
-    public bool coolActive5 = false;
-
-    protected override void Awake()
+    public coolClock[] coolclocks = new coolClock[10];
+    Action[] Checker = new Action[10];
+    Action updateCoolTime;
+    public float timeCount = 0f;
+    void Start()
     {
-        base.Awake();
-        UpdateCooltimer = WeWantNoNull;
+        updateCoolTime = WeWantNoNull;
+        for (int i = 0; i < 10; i++)
+        {
+            coolclocks[i].time = 0f;
+            coolclocks[i].coolStart = false;
+            coolclocks[i].coolEnd = true;
+        }
     }
 
     private void Update()
     {
-        UpdateCooltimer();
+        updateCoolTime();
+    }
+    public void CoolTimeStart(int index, float time)
+    {
+        Debug.Log($"{index}쿨타임 시작.{time}");
+        Checker[index] += () => { timeCheck(index, time); };
+        if (startCheck())
+        {
+            coolclocks[index].time = time;
+            updateCoolTime += timeCounting;
+            coolclocks[index].coolStart = true;
+            coolclocks[index].coolEnd = false;
+        }
+        else
+        {
+            coolclocks[index].time += time;
+        }
+        updateCoolTime += Checker[index];
+    }
+    void timeCheck(int index, float time)
+    {
+        if (timeCount > time)
+        {
+            Debug.Log($"{index}쿨타임이.{timeCount}에 끝남");
+            coolclocks[index].time = 0f;
+            coolclocks[index].coolEnd = true;
+            coolclocks[index].coolStart = false;
+            updateCoolTime -= Checker[index];
+            Checker[index] = null;
+            if (EndCheck())
+            {
+                updateCoolTime -= timeCounting;
+                timeCount = 0f;
+                Debug.Log("모든 쿨이 종료되었다.");
+            }
+        }
+    }
+    void timeCounting()
+    {
+        timeCount += Time.deltaTime;
     }
 
-    void timecouting()
+    bool startCheck()
     {
-        timecounter += Time.deltaTime;
+        foreach (coolClock c in coolclocks)
+        {
+            if (c.coolStart)
+            {
+                return false;
+            }
+        }
+        return true;
     }
-    void coolTimerSys1()
+    bool EndCheck()
     {
-        if (cooltimer1 <= timecounter)
+        foreach (coolClock c in coolclocks)
         {
-            coolActive1 = false;
-            cooltimer1 = 0;
-            UpdateCooltimer -= coolTimerSys1;
+            if (!c.coolEnd)
+            {
+                return false;
+            }
         }
-    }
-    void coolTimerSys2()
-    {
-        if (cooltimer2 <= timecounter)
-        {
-            coolActive2 = false;
-            cooltimer2 = 0;
-            UpdateCooltimer -= coolTimerSys2;
-        }
-    } 
-    void coolTimerSys3()
-    {
-        if (cooltimer3 <= timecounter)
-        {
-            coolActive3 = false;
-            cooltimer3 = 0;
-            UpdateCooltimer -= coolTimerSys3;
-        }
-    }
-    void coolTimerSys4()
-    {
-        if (cooltimer4 <= timecounter)
-        {
-            coolActive4 = false;
-            cooltimer4 = 0;
-            UpdateCooltimer -= coolTimerSys4;
-        }
-    }
-    void coolTimerSys5()
-    {
-        if (cooltimer3 <= timecounter)
-        {
-            coolActive3 = false;
-            cooltimer5 = 0;
-            UpdateCooltimer -= coolTimerSys5;
-        }
-    }
-    public void cooltimeStart(int cas, float time)
-    {
-        if (!coolActive1 && !coolActive2 && !coolActive3 && !coolActive4 && !coolActive5)
-        {
-            UpdateCooltimer += timecouting;
-        }
-        switch (cas)
-        {
-            case 1:
-                if (!coolActive1)
-                {
-                    UpdateCooltimer += AllCheckTime;
-                }
-                coolActive1 = true;
-                UpdateCooltimer += coolTimerSys1;
-                cooltimer1 = timecounter + time;
-                break;
-            case 2:
-                if (!coolActive2)
-                {
-                    UpdateCooltimer += AllCheckTime;
-                }
-                coolActive2 = true;
-                UpdateCooltimer += coolTimerSys2;
-                cooltimer2 = timecounter + time;
-                break;
-            case 3:
-                if (!coolActive3)
-                {
-                    UpdateCooltimer += AllCheckTime;
-                }
-                coolActive3 = true;
-                UpdateCooltimer += coolTimerSys3;
-                cooltimer3 = timecounter + time;
-                break;
-            case 4:
-                if (!coolActive4)
-                {
-                    UpdateCooltimer += AllCheckTime;
-                }
-                coolActive4 = true;
-                UpdateCooltimer += coolTimerSys4;
-                cooltimer4 = timecounter + time;
-                break;
-            case 5:
-                if (!coolActive5)
-                {
-                    UpdateCooltimer += AllCheckTime;
-                }
-                coolActive4 = true;
-                UpdateCooltimer += coolTimerSys5;
-                cooltimer5 = timecounter + time;
-                break;
-            default:
-                Debug.LogWarning("쿨타임 시작 실패");
-                break;
-        }
-    }
-    private void AllCheckTime()
-    {
-        if (!coolActive1 && !coolActive2 && !coolActive3 && !coolActive4 && !coolActive5)
-        {
-            UpdateCooltimer -= AllCheckTime;
-            allcoolStop();
-        }
-    }
-    /// <summary>
-    /// 모든 쿨타임을 종료합니다.
-    /// </summary>
-    public void allcoolStop()
-    {
-        UpdateCooltimer -= timecouting;
-        coolActive1 = false;
-        cooltimer1 = 0f;
-        coolActive2 = false;
-        cooltimer2 = 0f;
-        coolActive3 = false;
-        cooltimer3 = 0f;
-        coolActive4 = false;
-        cooltimer4 = 0f;
-        coolActive5 = false;
-        cooltimer5 = 0f;
-        timecounter = 0;
+        return true;
     }
 }
