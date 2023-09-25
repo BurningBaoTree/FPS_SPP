@@ -10,7 +10,11 @@ public class Equipments : MonoBehaviour
 
     public Action IsEquiped;
     public Action DisEquiped;
+    public Action UseDelegate;
+    public Action StopDelegate;
 
+    protected Vector3 equipPos;
+    protected Quaternion equipRot;
 
     protected virtual void Awake()
     {
@@ -18,6 +22,11 @@ public class Equipments : MonoBehaviour
         col = GetComponent<BoxCollider>();
     }
     private void OnEnable()
+    {
+        IsEquiped += playerEquiped;
+        DisEquiped += playerDisEquiped;
+    }
+    private void Start()
     {
         IsEquiped += playerEquiped;
         DisEquiped += playerDisEquiped;
@@ -32,8 +41,8 @@ public class Equipments : MonoBehaviour
         rig.velocity = Vector3.zero;
         rig.isKinematic = true;
         col.enabled = false;
-        this.transform.localPosition = new Vector3(-0.004f,0.082f,0.051f);
-        this.transform.localRotation = Quaternion.Euler(-119.262f,79.987f,24.584f);
+        this.transform.localPosition = equipPos;
+        this.transform.localRotation = equipRot;
     }
     private void playerDisEquiped()
     {

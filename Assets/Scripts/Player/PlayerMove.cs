@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+using static System.Collections.Specialized.BitVector32;
 
 
 [RequireComponent(typeof(Equiped))]
@@ -31,12 +32,15 @@ public class PlayerMove : MonoBehaviour
     float xxis;
     float yxis;
 
-    float dropgage = 0f;
+    public float dropgage = 0f;
     public float maxDropgage = 10f;
     float drag = 0f;
 
 
     Animator animator;
+
+    Action checker;
+    Action useAction;
 
     private void Awake()
     {
@@ -46,15 +50,23 @@ public class PlayerMove : MonoBehaviour
         yxis = 0;
         animator = GetComponent<Animator>();
         eqiSys = GetComponent<Equiped>();
+        checker = WWN;
     }
+    void WWN()
+    {
 
+    }
     private void OnEnable()
     {
         playerinput.Move.Enable();
+        playerinput.Move.Fire.performed += UseHolding;
+        playerinput.Move.Fire.canceled += UNUseHolding;
         playerinput.Move.Head.performed += HeadBanging;
         playerinput.Move.WASD.performed += MoveAction;
         playerinput.Move.WASD.canceled += MoveAction;
         playerinput.Move.Jump.performed += JumpAction;
+        playerinput.Move.Use.performed += UseAction;
+        playerinput.Move.Use.canceled += UseCanceled;
 
         playerinput.Move.GearChanger4.performed += WeaponSellect5;
         playerinput.Move.GearChanger3.performed += WeaponSellect4;
@@ -65,7 +77,6 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.Drop.performed += DropReady;
         playerinput.Move.Drop.canceled += DropCanceled;
     }
-
 
     private void OnDisable()
     {
@@ -78,12 +89,25 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.GearChanger3.performed -= WeaponSellect4;
         playerinput.Move.GearChanger4.performed -= WeaponSellect5;
 
+        playerinput.Move.Use.canceled -= UseCanceled;
+        playerinput.Move.Use.performed -= UseAction;
         playerinput.Move.Jump.performed -= JumpAction;
         playerinput.Move.WASD.canceled -= MoveAction;
         playerinput.Move.WASD.performed -= MoveAction;
+        playerinput.Move.Head.performed -= HeadBanging;
+        playerinput.Move.Fire.canceled -= UNUseHolding;
+        playerinput.Move.Fire.performed -= UseHolding;
         playerinput.Move.Disable();
     }
 
+    private void UseHolding(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        eqiSys.ActionThis();
+    }
+    private void UNUseHolding(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        eqiSys.stopActionThis();
+    }
 
     private void WeaponSellect1(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
@@ -105,8 +129,29 @@ public class PlayerMove : MonoBehaviour
     {
         eqiSys.HoldThis(4);
     }
+    private void DropReady(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        useAction = eqiSys.DropThis;
+        checker += gageCheck;
+        drag = context.ReadValue<float>();
+    }
     private void DropCanceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
+        checker -= gageCheck;
+        useAction = null;
+        drag = 0;
+        dropgage = 0;
+    }
+    private void UseAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        useAction = eqiSys.useThis;
+        checker += gageCheck;
+        drag = context.ReadValue<float>();
+    }
+    private void UseCanceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        checker -= gageCheck;
+        useAction = null;
         drag = 0;
         dropgage = 0;
     }
@@ -131,19 +176,6 @@ public class PlayerMove : MonoBehaviour
         }
         xxis = ClampAngleY(xis, -90, 90);
         yxis = ClampAngle(yis, float.MinValue, float.MaxValue);
-    }
-
-
-
-    /*    private void DropActive(UnityEngine.InputSystem.InputAction.CallbackContext context)
-        {
-            dropgage = 0;
-        }*/
-
-
-    private void DropReady(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        drag = context.ReadValue<float>();
     }
 
     private void JumpAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -172,16 +204,21 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        dropgage += drag/3f;
-        if (dropgage > maxDropgage)
-        {
-            eqiSys.DropThis();
-            dropgage = 0;
-        }
+        checker();
         this.transform.rotation = Quaternion.Euler(0, yxis, 0);
         Cameratransform.rotation = Quaternion.Euler(xxis, yxis, 0);
         HeadJoint.rotation = Quaternion.Euler(xxis, 0, 0);
         transform.Translate(speed * Time.fixedDeltaTime * posi);
+    }
+    void gageCheck()
+    {
+        dropgage += drag * 0.1f;
+        if (dropgage > maxDropgage)
+        {
+            useAction?.Invoke();
+            dropgage = 0;
+            useAction = null;
+        }
     }
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
@@ -196,9 +233,5 @@ public class PlayerMove : MonoBehaviour
         if (lfAngle < lfMin) lfAngle = lfMin;
         if (lfAngle > lfMax) lfAngle = lfMax;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-    void DropThings()
-    {
-
     }
 }

@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class WeaponBAse : Equipments
 {
-    float damage = 1;
-    float fireSpeed = 1f;
-    float bulletSpeed = 1f;
+    protected string weaponName;
+    protected string weaponIntroduce;
+    public float damage;
+    public float fireSpeed;
+    public float bulletSpeedf;
+    public int maxbullet;
+    public int bullet;
+    protected override void Awake()
+    {
+        base.Awake();
+    }
 }

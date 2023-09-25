@@ -8,6 +8,7 @@ using UnityEngine;
 public class Equiped : MonoBehaviour
 {
     CoolTimeSys coolsys;
+    public PlayerCam plcam;
 
     public GameObject LeftWeaponSlot;
     public GameObject RightWeaponSlot;
@@ -31,6 +32,7 @@ public class Equiped : MonoBehaviour
     float animatorLayerWeightWeapon = 0;
     public float changingTime = 0f;
     Action animatorLayerWeight;
+    public Action UseEquipment;
 
     private void Awake()
     {
@@ -41,10 +43,16 @@ public class Equiped : MonoBehaviour
     private void OnEnable()
     {
         coolsys = CoolTimeSys.Inst;
+        plcam.IsEquitable += AddGeartoInven;
     }
     private void Start()
     {
         animator.SetLayerWeight(1, 0);
+    }
+    private void OnDisable()
+    {
+        plcam.IsEquitable -= AddGeartoInven;
+
     }
     private void Update()
     {
@@ -70,15 +78,20 @@ public class Equiped : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void useThis()
     {
-        if (collision.collider.CompareTag("Weapon") && coolsys.coolclocks[1].coolEnd)
+        plcam.UseActiveatebyType();
+    }
+
+    public void AddGeartoInven()
+    {
+        if (plcam.equipments != null && coolsys.coolclocks[1].coolEnd)
         {
             for (int i = 0; i < 5;)
             {
                 if (equiptableList[i] == null)
                 {
-                    equiptableList[i] = collision.gameObject.GetComponent<Equipments>();
+                    equiptableList[i] = plcam.equipments;
                     equiptableList[i].transform.parent = RightWeaponSlot.transform;
                     equiptableList[i].IsEquiped.Invoke();
                     HoldThis(i);
@@ -99,7 +112,6 @@ public class Equiped : MonoBehaviour
 
     public void HoldThis(int num)
     {
-
         if (equiptableList[num] != null && equiptableList[previous] == null)
         {
             equiptableList[num].gameObject.SetActive(true);
@@ -119,7 +131,7 @@ public class Equiped : MonoBehaviour
             animatorLayerWeight += AnimatorLayerSetter1;
             layerState = 1;
         }
-        else if (equiptableList[num] == null && equiptableList[previous]!=null)
+        else if (equiptableList[num] == null && equiptableList[previous] != null)
         {
             animatorLayerWeight -= AnimatorLayerSetter1;
             animatorLayerWeightWeapon = 0;
@@ -144,6 +156,21 @@ public class Equiped : MonoBehaviour
             previous = 5;
             animator.SetLayerWeight(1, 0);
             layerState = 0;
+        }
+    }
+
+    public void ActionThis()
+    {
+        if (equiptableList[previous] != null)
+        {
+            equiptableList[previous].UseDelegate?.Invoke();
+        }
+    }
+    public void stopActionThis()
+    {
+        if (equiptableList[previous] != null)
+        {
+            equiptableList[previous].StopDelegate?.Invoke();
         }
     }
 
