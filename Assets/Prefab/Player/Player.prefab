@@ -1312,6 +1312,7 @@ MonoBehaviour:
   newState: 1
   speed: 5
   headrotationSpeed: 10
+  dropgage: 0
   maxDropgage: 10
 --- !u!54 &1115162090
 Rigidbody:

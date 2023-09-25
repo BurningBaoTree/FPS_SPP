@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 public class AddVariableEditor : EditorWindow
 {
     private string variableName = "";
@@ -50,3 +51,4 @@ public class AddVariableEditor : EditorWindow
         AssetDatabase.Refresh();
     }
 }
+#endif

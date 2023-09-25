@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class ShaderGraphTextureExprot : EditorWindow
 {
     public Material shader;
@@ -39,3 +40,4 @@ public class ShaderGraphTextureExprot : EditorWindow
 
 
 }
+#endif

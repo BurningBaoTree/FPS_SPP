@@ -533,6 +533,10 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
+      propertyPath: TrailModule.sizeAffectsLifetime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: TrailModule.generateLightingData
       value: 0
       objectReference: {fileID: 0}
@@ -581,6 +585,22 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[0].inSlope
       value: -1
       objectReference: {fileID: 0}
@@ -598,7 +618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[1].inWeight
-      value: 0
+      value: 0.33333334
       objectReference: {fileID: 0}
     - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[1].outSlope
@@ -606,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[0].outWeight
-      value: 0
+      value: 0.33333334
       objectReference: {fileID: 0}
     - target: {fileID: 6905408643315770893, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[1].outWeight
@@ -682,7 +702,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249989169722268998, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: 1.14
       objectReference: {fileID: 0}
     - target: {fileID: 7249989169722268998, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: m_LocalPosition.y
@@ -690,7 +710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249989169722268998, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -79.19
+      value: -81.14
       objectReference: {fileID: 0}
     - target: {fileID: 7249989169722268998, guid: 8e52c0716a37ac24eb161d1254171b69, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1102,30 +1122,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1740846339, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 1740846339, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.328
-      objectReference: {fileID: 0}
-    - target: {fileID: 1740846339, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.337
-      objectReference: {fileID: 0}
-    - target: {fileID: 1814892989, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 1814892989, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 1814892989, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.071
-      objectReference: {fileID: 0}
     - target: {fileID: 2378878510221559959, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using System.Collections;
-using System;
 
+#if UNITY_EDITOR
 public class NameChanger : EditorWindow
 {
     public string SearchAndChange;
@@ -191,3 +190,4 @@ public class NameChanger : EditorWindow
         }
     }
 }
+#endif
