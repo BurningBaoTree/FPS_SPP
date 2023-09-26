@@ -2,8 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
-using static System.Collections.Specialized.BitVector32;
+using UnityEngine.XR;
 
 
 [RequireComponent(typeof(Equiped))]
@@ -14,6 +13,9 @@ public class PlayerMove : MonoBehaviour
     [Tooltip("머리 조인트를 이곳에 넣으세요")]
     public Transform HeadJoint;
     public Transform Cameratransform;
+    public Transform IKHand;
+    public Transform dot;
+    CoolTimeSys coolsys;
 
     Rigidbody rig;
 
@@ -23,7 +25,11 @@ public class PlayerMove : MonoBehaviour
     Vector3 posi;
     Vector2 MoveDir;
 
+    bool walkActive = false;
     public float speed = 1.0f;
+    float updonwspeed = 0f;
+    float updonwAdd = 10f;
+    float updonwImpulse = 0.01f;
     public float headrotationSpeed = 1.0f;
 
     float xis = 0;
@@ -31,10 +37,13 @@ public class PlayerMove : MonoBehaviour
 
     float xxis;
     float yxis;
+    int ani;
 
     public float dropgage = 0f;
     public float maxDropgage = 10f;
     float drag = 0f;
+
+    bool jumpcheck = true;
 
 
     Animator animator;
@@ -52,18 +61,17 @@ public class PlayerMove : MonoBehaviour
         eqiSys = GetComponent<Equiped>();
         checker = WWN;
     }
-    void WWN()
-    {
-
-    }
     private void OnEnable()
     {
+        coolsys = CoolTimeSys.Inst;
         playerinput.Move.Enable();
         playerinput.Move.Fire.performed += UseHolding;
         playerinput.Move.Fire.canceled += UNUseHolding;
         playerinput.Move.Head.performed += HeadBanging;
         playerinput.Move.WASD.performed += MoveAction;
         playerinput.Move.WASD.canceled += MoveAction;
+        playerinput.Move.Dash.performed += RunActive;
+        playerinput.Move.Dash.canceled += RunDeActive;
         playerinput.Move.Jump.performed += JumpAction;
         playerinput.Move.Use.performed += UseAction;
         playerinput.Move.Use.canceled += UseCanceled;
@@ -77,6 +85,7 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.Drop.performed += DropReady;
         playerinput.Move.Drop.canceled += DropCanceled;
     }
+
 
     private void OnDisable()
     {
@@ -92,6 +101,8 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.Use.canceled -= UseCanceled;
         playerinput.Move.Use.performed -= UseAction;
         playerinput.Move.Jump.performed -= JumpAction;
+        playerinput.Move.Dash.canceled -= RunDeActive;
+        playerinput.Move.Dash.performed -= RunActive;
         playerinput.Move.WASD.canceled -= MoveAction;
         playerinput.Move.WASD.performed -= MoveAction;
         playerinput.Move.Head.performed -= HeadBanging;
@@ -99,7 +110,23 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.Fire.performed -= UseHolding;
         playerinput.Move.Disable();
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            jumpcheck = true;
+        }
+    }
+    private void FixedUpdate()
+    {
+        checker();
+        this.transform.rotation = Quaternion.Euler(0, yxis, 0);
+        Cameratransform.rotation = Quaternion.Euler(xxis, yxis, 0);
+        HeadJoint.rotation = Quaternion.Euler(xxis, 0, 0);
+        transform.Translate(speed * Time.fixedDeltaTime * posi);
+        Cameratransform.Translate(Vector3.up * updonwspeed * updonwImpulse, Space.World);
+        IKHand.localRotation = Quaternion.LookRotation(dot.localPosition);
+    }
     private void UseHolding(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         eqiSys.ActionThis();
@@ -180,36 +207,57 @@ public class PlayerMove : MonoBehaviour
 
     private void JumpAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        rig.AddForce(Vector3.up * 5, ForceMode.Impulse);
+        if (jumpcheck)
+        {
+            jumpcheck = false;
+            rig.AddForce(Vector3.up * 5, ForceMode.Impulse);
+        }
+    }
+    void updownupdate()
+    {
+        updonwspeed = Mathf.Cos(Time.time * updonwAdd);
+        Debug.Log($"{updonwspeed}");
     }
     private void MoveAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         Vector2 move = context.ReadValue<Vector2>();
         MoveDir = move;
+        ani = (int)MoveDir.y;
         posi.x = MoveDir.x;
         posi.z = MoveDir.y;
-        if (MoveDir.y > 0.5f)
+        animator.SetInteger("walk", ani);
+        if (MoveDir.sqrMagnitude > 0.6f && !walkActive)
         {
-            animator.SetInteger("walk", 1);
-        }
-        else if (MoveDir.y < -0.5f)
-        {
-            animator.SetInteger("walk", -1);
+            walkActive = true;
+            checker += updownupdate;
         }
         else
         {
-            animator.SetInteger("walk", 0);
+            walkActive = false;
+            updonwspeed = 0;
+            Cameratransform.localPosition = Vector3.zero;
+            checker -= updownupdate;
         }
     }
-
-    private void FixedUpdate()
+    void slowlycomback()
     {
-        checker();
-        this.transform.rotation = Quaternion.Euler(0, yxis, 0);
-        Cameratransform.rotation = Quaternion.Euler(xxis, yxis, 0);
-        HeadJoint.rotation = Quaternion.Euler(xxis, 0, 0);
-        transform.Translate(speed * Time.fixedDeltaTime * posi);
+
     }
+    private void RunActive(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        ani *= 2;
+        speed *= 2;
+        updonwAdd *= 2;
+        updonwImpulse *= 4;
+    }
+    private void RunDeActive(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        ani = (int)(ani * 0.5f);
+        speed *= 0.5f;
+        updonwAdd *= 0.5f;
+        updonwImpulse *= 0.25f;
+    }
+
     void gageCheck()
     {
         dropgage += drag * 0.1f;
@@ -233,5 +281,9 @@ public class PlayerMove : MonoBehaviour
         if (lfAngle < lfMin) lfAngle = lfMin;
         if (lfAngle > lfMax) lfAngle = lfMax;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+    void WWN()
+    {
+
     }
 }

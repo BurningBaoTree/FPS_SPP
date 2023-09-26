@@ -42,12 +42,12 @@ public class Equiped : MonoBehaviour
     }
     private void OnEnable()
     {
-        coolsys = CoolTimeSys.Inst;
         plcam.IsEquitable += AddGeartoInven;
     }
     private void Start()
     {
         animator.SetLayerWeight(1, 0);
+        coolsys = CoolTimeSys.Inst;
     }
     private void OnDisable()
     {

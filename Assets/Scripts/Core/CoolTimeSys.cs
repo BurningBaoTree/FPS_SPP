@@ -44,6 +44,7 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
         }
         else
         {
+            Debug.Log($"{index}동시 호출 시간{time} 초 만큼 추가");
             coolclocks[index].time += time;
         }
         updateCoolTime += Checker[index];

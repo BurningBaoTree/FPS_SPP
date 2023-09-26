@@ -134,6 +134,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Value"",
+                    ""id"": ""aaf19b6f-eefc-4341-b9d3-09db295b10d7"",
+                    ""expectedControlType"": ""Integer"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -151,7 +160,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""a427bd70-b76e-4e91-8f54-4f50846120bb"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -310,6 +319,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KM"",
                     ""action"": ""GearChanger4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52b06be0-235b-49a2-8fd9-d316918fbd8e"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -505,6 +525,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Move_Use = m_Move.FindAction("Use", throwIfNotFound: true);
         m_Move_Fire = m_Move.FindAction("Fire", throwIfNotFound: true);
         m_Move_Zoom = m_Move.FindAction("Zoom", throwIfNotFound: true);
+        m_Move_Dash = m_Move.FindAction("Dash", throwIfNotFound: true);
         // Ability
         m_Ability = asset.FindActionMap("Ability", throwIfNotFound: true);
         m_Ability_ability1 = m_Ability.FindAction("ability1", throwIfNotFound: true);
@@ -589,6 +610,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Move_Use;
     private readonly InputAction m_Move_Fire;
     private readonly InputAction m_Move_Zoom;
+    private readonly InputAction m_Move_Dash;
     public struct MoveActions
     {
         private @PlayerInput m_Wrapper;
@@ -605,6 +627,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Use => m_Wrapper.m_Move_Use;
         public InputAction @Fire => m_Wrapper.m_Move_Fire;
         public InputAction @Zoom => m_Wrapper.m_Move_Zoom;
+        public InputAction @Dash => m_Wrapper.m_Move_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Move; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -650,6 +673,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IMoveActions instance)
@@ -690,6 +716,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IMoveActions instance)
@@ -862,6 +891,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnUse(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
     public interface IAbilityActions
     {

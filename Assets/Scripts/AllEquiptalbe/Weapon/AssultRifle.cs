@@ -36,6 +36,8 @@ public class AssultRifle : WeaponBAse
     {
         par.Stop();
     }
-
-
+    private void OnParticleCollision(GameObject other)
+    {
+        Debug.Log("ÂøÅº");
+    }
 }
