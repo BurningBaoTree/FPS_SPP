@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Equipments : MonoBehaviour
 {
+    protected CoolTimeSys cooltimer;
+
+
     public Rigidbody rig;
     public BoxCollider col;
 
@@ -12,6 +15,8 @@ public class Equipments : MonoBehaviour
     public Action DisEquiped;
     public Action UseDelegate;
     public Action StopDelegate;
+
+    public Action Updater;
 
     protected Vector3 equipPos;
     protected Quaternion equipRot;
@@ -21,20 +26,25 @@ public class Equipments : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
     }
-    private void OnEnable()
+    protected virtual void OnEnable()
+    {
+        IsEquiped += playerEquiped;
+        DisEquiped += playerDisEquiped;
+        cooltimer = CoolTimeSys.Inst;
+    }
+    protected virtual void Start()
     {
         IsEquiped += playerEquiped;
         DisEquiped += playerDisEquiped;
     }
-    private void Start()
-    {
-        IsEquiped += playerEquiped;
-        DisEquiped += playerDisEquiped;
-    }
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         DisEquiped -= playerDisEquiped;
         IsEquiped -= playerEquiped;
+    }
+    protected virtual void Update()
+    {
+
     }
     private void playerEquiped()
     {

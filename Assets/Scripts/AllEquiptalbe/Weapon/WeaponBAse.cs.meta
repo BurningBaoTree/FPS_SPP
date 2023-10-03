@@ -3,7 +3,10 @@ guid: 0ff08e0e443040b49b50f3f943a8c184
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - rig: {instanceID: 0}
+  - col: {instanceID: 0}
+  - HeatEffect: {fileID: 802755309224190398, guid: 2e41f7bf18825f2458db511836240f82, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
