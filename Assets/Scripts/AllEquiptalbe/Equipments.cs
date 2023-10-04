@@ -16,7 +16,7 @@ public class Equipments : MonoBehaviour
     public Action UseDelegate;
     public Action StopDelegate;
 
-    public Action Updater;
+    protected Action Updater;
 
     protected Vector3 equipPos;
     protected Quaternion equipRot;
@@ -25,6 +25,7 @@ public class Equipments : MonoBehaviour
     {
         rig = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
+        Updater = noNull;
     }
     protected virtual void OnEnable()
     {
@@ -44,7 +45,7 @@ public class Equipments : MonoBehaviour
     }
     protected virtual void Update()
     {
-
+        Updater();
     }
     private void playerEquiped()
     {
@@ -60,6 +61,9 @@ public class Equipments : MonoBehaviour
         col.enabled = true;
         rig.AddForce(Vector3.forward, ForceMode.Impulse);
     }
+    protected void noNull()
+    {
 
+    }
 
 }

@@ -6,6 +6,27 @@ using UnityEngine;
 public class AssultRifle : WeaponBAse
 {
     ParticleSystem par;
+    ParticleSystem.ShapeModule parshape;
+    GameManager gameManager;
+    PlayerMove playermove;
+
+    public List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+    int BulletCount
+    {
+        get
+        {
+            return collisionEvents.Count;
+        }
+        set
+        {
+            if (collisionEvents.Count < value)
+            {
+                BulletUse--;
+                Debug.Log("파티클 갯수: " + BulletUse);
+            }
+        }
+    }
+
     int BulletUse
     {
         get
@@ -16,6 +37,7 @@ public class AssultRifle : WeaponBAse
         {
             if (bullet != value)
             {
+                playermove.xis -= 1f;
                 bullet = value;
                 if (bullet == 0)
                 {
@@ -24,12 +46,32 @@ public class AssultRifle : WeaponBAse
             }
         }
     }
+    float angleer = 0;
+    float maxAngle = 5f;
+    float Angler
+    {
+        get
+        {
+            return angleer;
+        }
+        set
+        {
+            angleer = value;
+            if (angleer > maxAngle)
+            {
+                angleer = maxAngle;
+            }
+        }
+    }
+
     bool fireAble = true;
+
 
     protected override void Awake()
     {
         base.Awake();
         par = GetComponent<ParticleSystem>();
+        parshape = par.shape;
         weaponName = "어썰트 라이플";
         weaponIntroduce = "가장 보편적인 대화수단";
         equipPos = new Vector3(-0.004f, 0.082f, 0.051f);
@@ -45,40 +87,42 @@ public class AssultRifle : WeaponBAse
     }
     protected override void Start()
     {
+        gameManager = GameManager.Inst;
         base.Start();
-
+        playermove = gameManager.Playermove;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
-        StopDelegate = stopFire;
+        StopDelegate -= stopFire;
         UseDelegate -= Fired;
     }
+
     void Fired()
     {
         par.Play();
+        Updater += FireHandling;
+    }
+    void FireHandling()
+    {
+        parshape.angle = Angler;
+        Angler += 0.5f;
     }
     void stopFire()
     {
         par.Stop();
+        Updater -= FireHandling;
+        parshape.angle = 0;
+        Angler = 0;
     }
     void reLoad()
     {
 
     }
-    private void OnParticleCollisionEvent(ParticleSystem particleSystem, ParticleCollisionEvent[] collisionEvents)
-    {
-        // 파티클 생성 이벤트가 발생할 때 호출되는 콜백 함수입니다.
-        // 각 이벤트마다 파티클 갯수를 1씩 증가시킵니다.
-        BulletUse -= collisionEvents.Length;
-
-        // 원하는 동작을 수행할 수 있습니다.
-        Debug.Log("파티클 갯수: " + BulletUse);
-    }
     private void OnParticleCollision(GameObject other)
     {
-        List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
         int numCollisions = par.GetCollisionEvents(other, collisionEvents);
+
         foreach (ParticleCollisionEvent events in collisionEvents)
         {
             if (other.CompareTag("Wall") || other.CompareTag("Floor"))
@@ -89,7 +133,7 @@ public class AssultRifle : WeaponBAse
             }
         }
     }
-/*    이후로 해야 할 일
-        쏠때마다 총알 차감
-        릴로딩*/
+    /*    이후로 해야 할 일
+            쏠때마다 총알 차감
+            릴로딩*/
 }

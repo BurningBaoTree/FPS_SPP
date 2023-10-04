@@ -9,9 +9,6 @@ using UnityEngine.XR;
 public class PlayerMove : MonoBehaviour
 {
     Equiped eqiSys;
-    [Header("조인트 리스트")]
-    [Tooltip("머리 조인트를 이곳에 넣으세요")]
-    public Transform HeadJoint;
     public Transform Cameratransform;
     public Transform IKHand;
     public Transform dot;
@@ -32,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     float updonwImpulse = 0.01f;
     public float headrotationSpeed = 1.0f;
 
-    float xis = 0;
+    public float xis = 0;
     float yis = 0;
 
     float xxis;
@@ -115,14 +112,16 @@ public class PlayerMove : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             jumpcheck = true;
+            updonwAdd = 10f;
         }
     }
     private void FixedUpdate()
     {
+        xxis = ClampAngleY(xis, -90, 90);
+        yxis = ClampAngle(yis, float.MinValue, float.MaxValue);
         checker();
         this.transform.rotation = Quaternion.Euler(0, yxis, 0);
         Cameratransform.rotation = Quaternion.Euler(xxis, yxis, 0);
-        HeadJoint.rotation = Quaternion.Euler(xxis, 0, 0);
         transform.Translate(speed * Time.fixedDeltaTime * posi);
         Cameratransform.Translate(Vector3.up * updonwspeed * updonwImpulse, Space.World);
         IKHand.localRotation = Quaternion.LookRotation(dot.localPosition);
@@ -201,8 +200,6 @@ public class PlayerMove : MonoBehaviour
         {
             xis = -90;
         }
-        xxis = ClampAngleY(xis, -90, 90);
-        yxis = ClampAngle(yis, float.MinValue, float.MaxValue);
     }
 
     private void JumpAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -211,12 +208,12 @@ public class PlayerMove : MonoBehaviour
         {
             jumpcheck = false;
             rig.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            updonwAdd = 0f;
         }
     }
     void updownupdate()
     {
         updonwspeed = Mathf.Cos(Time.time * updonwAdd);
-        Debug.Log($"{updonwspeed}");
     }
     private void MoveAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
@@ -226,17 +223,17 @@ public class PlayerMove : MonoBehaviour
         posi.x = MoveDir.x;
         posi.z = MoveDir.y;
         animator.SetInteger("walk", ani);
-        if (MoveDir.sqrMagnitude > 0.6f && !walkActive)
+        if (MoveDir.sqrMagnitude > 0.6f)
         {
+            checker += walkActive ? null : updownupdate;
             walkActive = true;
-            checker += updownupdate;
         }
         else
         {
-            walkActive = false;
             updonwspeed = 0;
             Cameratransform.localPosition = Vector3.zero;
-            checker -= updownupdate;
+            checker -= walkActive ? updownupdate : null;
+            walkActive = false;
         }
     }
     void slowlycomback()

@@ -15,6 +15,7 @@ public class heatPanel : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
     public float time = 5.0f;
+    float copytime;
     float Timecolor
     {
         get
@@ -42,28 +43,30 @@ public class heatPanel : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        copytime = time;
     }
     private void OnEnable()
     {
-        heatAction(sellector, out changer);
+        heatAction(sellector);
     }
     private void Update()
     {
         updateAction();
         Timecolor -= Time.deltaTime;
-        changer.a = Timecolor / time;
+        changer.a = Timecolor / copytime;
     }
-    void heatAction(heattedSellect sel, out Color col)
+    void heatAction(heattedSellect sel)
     {
         if ((int)sel == 1)
         {
-            updateAction = () => { spriteRenderer.color = enemyColor; };
+            changer = enemyColor;
+            updateAction = () => { spriteRenderer.color = changer; };
         }
         else
         {
-            updateAction = () => { spriteRenderer.color = playerColor; };
+            changer = playerColor;
+            updateAction = () => { spriteRenderer.color = changer; };
         }
-        col = spriteRenderer.color;
     }
 
 }

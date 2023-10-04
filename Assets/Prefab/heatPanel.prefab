@@ -97,3 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f87b0ab3f5511d4ba0fdb21534191a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sellector: 0
+  time: 5
+  playerColor: {r: 0, g: 0.60708785, b: 1, a: 1}
+  enemyColor: {r: 1, g: 0, b: 0, a: 1}
