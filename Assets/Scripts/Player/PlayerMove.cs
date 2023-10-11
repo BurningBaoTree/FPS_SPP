@@ -123,7 +123,7 @@ public class PlayerMove : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(0, yxis, 0);
         Cameratransform.rotation = Quaternion.Euler(xxis, yxis, 0);
         transform.Translate(speed * Time.fixedDeltaTime * posi);
-        Cameratransform.Translate(Vector3.up * updonwspeed * updonwImpulse, Space.World);
+        Cameratransform.Translate( Vector3.up * updonwspeed * updonwImpulse, Space.World);
         IKHand.localRotation = Quaternion.LookRotation(dot.localPosition);
     }
     private void UseHolding(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -208,6 +208,7 @@ public class PlayerMove : MonoBehaviour
         {
             jumpcheck = false;
             rig.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            Cameratransform.localPosition = Vector3.zero;
             updonwAdd = 0f;
         }
     }
