@@ -916,7 +916,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1115162090, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
       propertyPath: m_Mass
-      value: 0.1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115162090, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115162090, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
+      propertyPath: m_Constraints
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2378878510221559959, guid: 6efd113b12b4c8f4d89c9c43c354e709, type: 3}
       propertyPath: m_RootOrder
