@@ -1,13 +1,64 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks.Sources;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.XR;
 
 
 [RequireComponent(typeof(Equiped))]
 public class PlayerMove : MonoBehaviour
 {
+    public enum State
+    {
+        Idel = 0,
+        walk,
+        run,
+        jump
+    }
+
+    public State playerstate = 0;
+    public State Playerstate
+    {
+        get
+        {
+            return playerstate;
+        }
+        set
+        {
+            switch (playerstate)
+            {
+                case State.Idel:
+                    break;
+                case State.walk:
+                    break;
+                case State.run:
+                    break;
+                case State.jump:
+                    break;
+                default:
+                    break;
+            }
+            playerstate = value;
+            switch (playerstate)
+            {
+                case State.Idel:
+                    break;
+                case State.walk:
+                    break;
+                case State.run:
+                    break;
+                case State.jump:
+                    break;
+                default:
+                    playerstate = 0;
+                    break;
+            }
+        }
+    }
+
     Equiped eqiSys;
     public Transform Cameratransform;
     public Transform IKHand;
@@ -17,12 +68,133 @@ public class PlayerMove : MonoBehaviour
     Rigidbody rig;
 
     PlayerInput playerinput;
-    public bool newState;
 
     Vector3 posi;
     Vector2 MoveDir;
+    public bool newState;
+
+
+
+    bool updowncheck = false;
+    /// <summary>
+    /// 걸을때 시야가 위아래로 왔다갔다하는 프로퍼티
+    /// </summary>
+    bool UpdownCheck
+    {
+        get
+        {
+            return updowncheck;
+        }
+        set
+        {
+            if (updowncheck != value)
+            {
+                updowncheck = value;
+                if (updowncheck)
+                {
+                    checker += updowncam;
+                }
+                else
+                {
+                    checker -= updowncam;
+                    slowlycomback(Cameratransform.position, Cameratransform.parent.position, 10);
+                }
+            }
+        }
+    }
 
     bool walkActive = false;
+    /// <summary>
+    /// 걷기 프로퍼티
+    /// </summary>
+    bool WalkActive
+    {
+        get
+        {
+            return walkActive;
+        }
+        set
+        {
+            if (walkActive != value)
+            {
+                walkActive = value;
+                if (walkActive)
+                {
+                    UpdownCheck = true;
+                    checker += WalkAction;
+                    Playerstate = State.walk;
+                }
+                else
+                {
+                    UpdownCheck = false;
+                    checker -= WalkAction;
+                    Playerstate = State.Idel;
+                }
+            }
+        }
+    }
+
+    bool inAir = false;
+    bool jumpcheck = false;
+    /// <summary>
+    /// 점프 프로퍼티
+    /// </summary>
+    bool JumpCheck
+    {
+        get
+        {
+            return jumpcheck;
+        }
+        set
+        {
+            if (jumpcheck != value)
+            {
+                jumpcheck = value;
+                if (jumpcheck)
+                {
+                    if (!inAir)
+                    {
+                        rig.AddForce(Vector3.up * 5, ForceMode.Impulse);
+                    }
+                    Playerstate = State.jump;
+                    UpdownCheck = false;
+                }
+                else if (WalkActive)
+                {
+                    Playerstate = State.walk;
+                    UpdownCheck = true;
+                }
+                else
+                {
+                    Playerstate = State.Idel;
+                    UpdownCheck = false;
+                }
+            }
+        }
+    }
+    bool runcheck = false;
+    bool RunCheck
+    {
+        get
+        {
+            return runcheck;
+        }
+        set
+        {
+            if (runcheck != value)
+            {
+                runcheck = value;
+                if (runcheck)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+    }
     public float speed = 1.0f;
     float updonwspeed = 0f;
     float updonwAdd = 10f;
@@ -40,7 +212,6 @@ public class PlayerMove : MonoBehaviour
     public float maxDropgage = 10f;
     float drag = 0f;
 
-    bool jumpcheck = true;
 
 
     Animator animator;
@@ -58,6 +229,7 @@ public class PlayerMove : MonoBehaviour
         eqiSys = GetComponent<Equiped>();
         checker = WWN;
     }
+    #region OnEnable & OnDisable
     private void OnEnable()
     {
         coolsys = CoolTimeSys.Inst;
@@ -107,25 +279,38 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.Fire.performed -= UseHolding;
         playerinput.Move.Disable();
     }
+    #endregion
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            jumpcheck = true;
-            updonwAdd = 10f;
+            inAir = false;
+            JumpCheck = false;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            inAir = true;
         }
     }
     private void FixedUpdate()
     {
+        //초과회전 방지
         xxis = ClampAngleY(xis, -90, 90);
         yxis = ClampAngle(yis, float.MinValue, float.MaxValue);
-        checker();
+
+        //Y를 축으로 돌아가는 몸통
         this.transform.rotation = Quaternion.Euler(0, yxis, 0);
+        //시야 회전
         Cameratransform.rotation = Quaternion.Euler(xxis, yxis, 0);
-        transform.Translate(speed * Time.fixedDeltaTime * posi);
-        Cameratransform.Translate( Vector3.up * updonwspeed * updonwImpulse, Space.World);
+        //손과 장비 회전
         IKHand.localRotation = Quaternion.LookRotation(dot.localPosition);
+        //업데이트 델리게이트
+        checker();
     }
+    #region 장비 관련(줍고 손에 들기)
     private void UseHolding(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         eqiSys.ActionThis();
@@ -134,7 +319,6 @@ public class PlayerMove : MonoBehaviour
     {
         eqiSys.stopActionThis();
     }
-
     private void WeaponSellect1(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         eqiSys.HoldThis(0);
@@ -155,6 +339,8 @@ public class PlayerMove : MonoBehaviour
     {
         eqiSys.HoldThis(4);
     }
+    #endregion
+    #region 상호작용
     private void DropReady(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         useAction = eqiSys.DropThis;
@@ -181,7 +367,7 @@ public class PlayerMove : MonoBehaviour
         drag = 0;
         dropgage = 0;
     }
-
+    #endregion
     private void HeadBanging(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         Vector3 pos = Vector3.zero;
@@ -201,61 +387,75 @@ public class PlayerMove : MonoBehaviour
             xis = -90;
         }
     }
-
     private void JumpAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (jumpcheck)
-        {
-            jumpcheck = false;
-            rig.AddForce(Vector3.up * 5, ForceMode.Impulse);
-            Cameratransform.localPosition = Vector3.zero;
-            updonwAdd = 0f;
-        }
-    }
-    void updownupdate()
-    {
-        updonwspeed = Mathf.Cos(Time.time * updonwAdd);
+        JumpCheck = true;
     }
     private void MoveAction(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
+        WalkActive = true;
         Vector2 move = context.ReadValue<Vector2>();
         MoveDir = move;
         ani = (int)MoveDir.y;
         posi.x = MoveDir.x;
         posi.z = MoveDir.y;
         animator.SetInteger("walk", ani);
-        if (MoveDir.sqrMagnitude > 0.6f)
+        if (MoveDir.sqrMagnitude < 0.8f)
         {
-            checker += walkActive ? null : updownupdate;
-            walkActive = true;
-        }
-        else
-        {
-            updonwspeed = 0;
-            Cameratransform.localPosition = Vector3.zero;
-            checker -= walkActive ? updownupdate : null;
-            walkActive = false;
+            WalkActive = false;
         }
     }
-    void slowlycomback()
+    void WalkAction()
     {
-
+        //이동 
+        transform.Translate(speed * Time.fixedDeltaTime * posi);
+    }
+    void slowlycomback(Vector3 pos, Vector3 headto, float speed)
+    {
+        void loclalizer(Vector3 posr, Vector3 headtor)
+        {
+            posr = Vector3.MoveTowards(Cameratransform.localPosition, headtor, speed * Time.fixedDeltaTime);
+        }
+        checker += () => loclalizer(pos, headto);
+        if (pos == headto)
+        {
+            Debug.Log("도달");
+            checker -= () => loclalizer(pos, headto);
+        }
     }
     private void RunActive(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        ani *= 2;
+        Playerstate = State.run;
         speed *= 2;
+        ani = (int)(ani * 2.1f);
         updonwAdd *= 2;
         updonwImpulse *= 4;
     }
     private void RunDeActive(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        ani = (int)(ani * 0.5f);
+        if (JumpCheck)
+        {
+            Playerstate = State.jump;
+        }
+        else if (WalkActive)
+        {
+            Playerstate = State.walk;
+        }
+        else
+        {
+            Playerstate = State.Idel;
+        }
         speed *= 0.5f;
+        ani = (int)(ani * 0.5f);
         updonwAdd *= 0.5f;
         updonwImpulse *= 0.25f;
-    }
 
+    }
+    void updowncam()
+    {
+        updonwspeed = Mathf.Cos(Time.time * updonwAdd);
+        Cameratransform.Translate(Vector3.up * updonwspeed * updonwImpulse, Space.World);
+    }
     void gageCheck()
     {
         dropgage += drag * 0.1f;
