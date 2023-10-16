@@ -26,7 +26,29 @@ public class AssultRifle : WeaponBAse
             }
         }
     }
-
+    bool fireActive = false;
+    bool FireActive
+    {
+        get
+        {
+            return fireActive;
+        }
+        set
+        {
+            if (fireActive != value)
+            {
+                fireActive = value;
+                if (fireActive)
+                {
+                    Updater += FireUSe;
+                }
+                else
+                {
+                    Updater -= FireUSe;
+                }
+            }
+        }
+    }
     int BulletUse
     {
         get
@@ -65,6 +87,20 @@ public class AssultRifle : WeaponBAse
     }
 
     bool fireAble = true;
+    bool FireAble
+    {
+        get
+        {
+            return fireAble;
+        }
+        set
+        {
+            if (fireAble != value)
+            {
+                fireAble = value;
+            }
+        }
+    }
 
 
     protected override void Awake()
@@ -72,12 +108,9 @@ public class AssultRifle : WeaponBAse
         base.Awake();
         par = GetComponent<ParticleSystem>();
         parshape = par.shape;
-        weaponName = "어썰트 라이플";
-        weaponIntroduce = "가장 보편적인 대화수단";
         equipPos = new Vector3(-0.004f, 0.082f, 0.051f);
         equipRot = Quaternion.Euler(-118.702f, 91.269f, 14.657f);
-        maxbullet = 34;
-        bullet = maxbullet;
+        InitializeWeapon();
     }
     protected override void OnEnable()
     {
@@ -97,11 +130,20 @@ public class AssultRifle : WeaponBAse
         StopDelegate -= stopFire;
         UseDelegate -= Fired;
     }
-
+    void InitializeWeapon()
+    {
+        bullet = maxbullet;
+        weaponName = "어썰트 라이플";
+        weaponIntroduce = "가장 보편적인 대화수단";
+    }
     void Fired()
     {
-        par.Play();
-        Updater += FireHandling;
+        if (cooltimer.coolclocks[0].coolEnd)
+        {
+            par.Emit(1);
+            FireHandling();
+            cooltimer.CoolTimeStart(0, fireSpeed);
+        }
     }
     void FireHandling()
     {
@@ -110,11 +152,17 @@ public class AssultRifle : WeaponBAse
     }
     void stopFire()
     {
-        par.Stop();
-        Updater -= FireHandling;
+        FireActive = false;
         parshape.angle = 0;
         Angler = 0;
     }
+
+    void FireUSe()
+    {
+        FireActive = true;
+        par.Emit(1);
+    }
+
     void reLoad()
     {
 

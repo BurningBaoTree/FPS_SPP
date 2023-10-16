@@ -1,11 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks.Sources;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.XR;
 
 
 [RequireComponent(typeof(Equiped))]
@@ -61,9 +55,11 @@ public class PlayerMove : MonoBehaviour
 
     Equiped eqiSys;
     public Transform Cameratransform;
+    public Transform CamUpdownTransform;
     public Transform IKHand;
     public Transform dot;
-    CoolTimeSys coolsys;
+
+    public CoolTimeSys coolsys;
 
     Rigidbody rig;
 
@@ -71,6 +67,7 @@ public class PlayerMove : MonoBehaviour
 
     Vector3 posi;
     Vector2 MoveDir;
+    Vector3 defoltTransform;
     public bool newState;
 
 
@@ -97,7 +94,7 @@ public class PlayerMove : MonoBehaviour
                 else
                 {
                     checker -= updowncam;
-                    slowlycomback(Cameratransform.position, Cameratransform.parent.position, 10);
+                    slowlycomback(CamUpdownTransform.localPosition, defoltTransform, 10);
                 }
             }
         }
@@ -186,11 +183,22 @@ public class PlayerMove : MonoBehaviour
                 runcheck = value;
                 if (runcheck)
                 {
-
+                    Playerstate = State.run;
                 }
                 else
                 {
-
+                    if (JumpCheck)
+                    {
+                        Playerstate = State.jump;
+                    }
+                    else if (WalkActive)
+                    {
+                        Playerstate = State.walk;
+                    }
+                    else
+                    {
+                        Playerstate = State.Idel;
+                    }
                 }
             }
         }
@@ -221,6 +229,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
+        defoltTransform = CamUpdownTransform.localPosition;
         rig = GetComponent<Rigidbody>();
         playerinput = new PlayerInput();
         xxis = 0;
@@ -232,7 +241,7 @@ public class PlayerMove : MonoBehaviour
     #region OnEnable & OnDisable
     private void OnEnable()
     {
-        coolsys = CoolTimeSys.Inst;
+        coolsys = new CoolTimeSys();
         playerinput.Move.Enable();
         playerinput.Move.Fire.performed += UseHolding;
         playerinput.Move.Fire.canceled += UNUseHolding;
@@ -412,20 +421,21 @@ public class PlayerMove : MonoBehaviour
     }
     void slowlycomback(Vector3 pos, Vector3 headto, float speed)
     {
-        void loclalizer(Vector3 posr, Vector3 headtor)
+        Vector3 distance;
+        void comback()
         {
-            posr = Vector3.MoveTowards(Cameratransform.localPosition, headtor, speed * Time.fixedDeltaTime);
+            distance = pos - headto;
+            CamUpdownTransform.localPosition = Vector3.MoveTowards(pos,headto,speed*Time.fixedDeltaTime);
+            if(distance.sqrMagnitude < 0.1f)
+            {
+                checker -= comback;
+            }
         }
-        checker += () => loclalizer(pos, headto);
-        if (pos == headto)
-        {
-            Debug.Log("µµ´Þ");
-            checker -= () => loclalizer(pos, headto);
-        }
+        checker += comback;
     }
     private void RunActive(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        Playerstate = State.run;
+        RunCheck = true;
         speed *= 2;
         ani = (int)(ani * 2.1f);
         updonwAdd *= 2;
@@ -433,18 +443,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void RunDeActive(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (JumpCheck)
-        {
-            Playerstate = State.jump;
-        }
-        else if (WalkActive)
-        {
-            Playerstate = State.walk;
-        }
-        else
-        {
-            Playerstate = State.Idel;
-        }
+        RunCheck = false;
         speed *= 0.5f;
         ani = (int)(ani * 0.5f);
         updonwAdd *= 0.5f;
@@ -454,7 +453,7 @@ public class PlayerMove : MonoBehaviour
     void updowncam()
     {
         updonwspeed = Mathf.Cos(Time.time * updonwAdd);
-        Cameratransform.Translate(Vector3.up * updonwspeed * updonwImpulse, Space.World);
+        CamUpdownTransform.Translate(Vector3.up * updonwspeed * updonwImpulse, Space.Self);
     }
     void gageCheck()
     {

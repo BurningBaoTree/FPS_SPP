@@ -70,8 +70,4 @@ public class Singleton<T> : MonoBehaviour where T : Component
     {
         isShutDown = true;  // 종료 표시
     }
-    protected void WeWantNoNull()
-    {
-        
-    }
 }

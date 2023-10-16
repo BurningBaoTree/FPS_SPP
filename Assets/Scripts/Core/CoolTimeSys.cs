@@ -10,10 +10,10 @@ public struct coolClock
     public bool coolStart;
     public bool coolEnd;
 }
-public class CoolTimeSys : Singleton<CoolTimeSys>
+public class CoolTimeSys : MonoBehaviour
 {
-    public coolClock[] coolclocks = new coolClock[10];
-    Action[] Checker = new Action[10];
+    public coolClock[] coolclocks = new coolClock[5];
+    Action[] Checker = new Action[5];
     Action updateCoolTime;
     public float timeCount = 0f;
     void Start()
@@ -66,6 +66,10 @@ public class CoolTimeSys : Singleton<CoolTimeSys>
                 Debug.Log("모든 쿨이 종료되었다.");
             }
         }
+    }
+    protected void WeWantNoNull()
+    {
+
     }
     void timeCounting()
     {

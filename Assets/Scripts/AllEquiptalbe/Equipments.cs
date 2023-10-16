@@ -5,17 +5,35 @@ using UnityEngine;
 
 public class Equipments : MonoBehaviour
 {
-    protected CoolTimeSys cooltimer;
+    public CoolTimeSys cooltimer;
 
 
     public Rigidbody rig;
     public BoxCollider col;
 
+    /// <summary>
+    /// 장착시 활성화되는 함수 모음
+    /// </summary>
     public Action IsEquiped;
+
+    /// <summary>
+    /// 장착 해제시 활성화되는 함수 모음
+    /// </summary>
     public Action DisEquiped;
+
+    /// <summary>
+    /// 사용 버튼 누를시 활성화되는 함수 모음
+    /// </summary>
     public Action UseDelegate;
+
+    /// <summary>
+    /// 사용 버튼을 땔때 활성화 되는 함수 모음
+    /// </summary>
     public Action StopDelegate;
 
+    /// <summary>
+    /// 업데이트용 함수 델리게이트
+    /// </summary>
     protected Action Updater;
 
     protected Vector3 equipPos;
@@ -31,7 +49,7 @@ public class Equipments : MonoBehaviour
     {
         IsEquiped += playerEquiped;
         DisEquiped += playerDisEquiped;
-        cooltimer = CoolTimeSys.Inst;
+        cooltimer = new CoolTimeSys();
     }
     protected virtual void Start()
     {

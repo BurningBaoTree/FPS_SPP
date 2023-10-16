@@ -80,7 +80,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rig: {fileID: 0}
   col: {fileID: 0}
-  HeatEffect: {fileID: 0}
+  HeatEffect: {fileID: 802755309224190398, guid: 2e41f7bf18825f2458db511836240f82, type: 3}
+  weaponName: "\uC5B4\uC370\uD2B8 \uB77C\uC774\uD50C"
+  weaponIntroduce: "\uAC00\uC7A5 \uBCF4\uD3B8\uC801\uC778 \uB300\uD654\uC218\uB2E8!"
   damage: 0
   fireSpeed: 0
   bulletSpeedf: 0
@@ -788,7 +790,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 1.92
+    angle: 0
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -874,7 +876,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.03
+      value: 0.01
       mode: 0
       spread: 0
       speed:

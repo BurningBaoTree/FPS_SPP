@@ -47,7 +47,7 @@ public class Equiped : MonoBehaviour
     private void Start()
     {
         animator.SetLayerWeight(1, 0);
-        coolsys = CoolTimeSys.Inst;
+        coolsys = new CoolTimeSys();
     }
     private void OnDisable()
     {

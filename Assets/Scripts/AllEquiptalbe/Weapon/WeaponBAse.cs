@@ -5,8 +5,8 @@ using UnityEngine;
 public class WeaponBAse : Equipments
 {
     public GameObject HeatEffect;
-    protected string weaponName;
-    protected string weaponIntroduce;
+    public string weaponName;
+    public string weaponIntroduce;
     public float damage;
     public float fireSpeed;
     public float bulletSpeedf;
@@ -16,5 +16,4 @@ public class WeaponBAse : Equipments
     {
         base.Awake();
     }
-
 }

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Body
+  m_Name: EnemyBody
   m_Shader: {fileID: -6465566751694194690, guid: 4eb427176ec1f444696ae3fe529e34aa, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -130,7 +130,7 @@ Material:
     - _split: 1
     - _step: 1
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.50077295, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 0, b: 0.07060623, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Emission: {r: 0.10036162, g: 0, b: 4.653406, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
