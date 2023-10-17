@@ -12,6 +12,7 @@ public class WeaponBAse : Equipments
     public float bulletSpeedf;
     public int maxbullet;
     public int bullet;
+    public float nuckback;
     protected override void Awake()
     {
         base.Awake();

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7249989169722268998}
   - component: {fileID: 243300363}
   - component: {fileID: 243300362}
+  - component: {fileID: 3358786737383917450}
   - component: {fileID: 243300365}
   - component: {fileID: 4812640393198210650}
   - component: {fileID: 6905408643315770893}
@@ -66,6 +67,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.036630988, y: 0.10722798, z: 1.0467377}
   m_Center: {x: -0.0013355613, y: -0.004861772, z: 0.1735611}
+--- !u!114 &3358786737383917450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7249989169722268999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 560bb7f058253b94b8b8d53c7994c106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CoolClocksCount: 5
+  coolclocks: []
+  timeCount: 0
 --- !u!114 &243300365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d04a9856969554ca0f921f84036ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooltimer: {fileID: 0}
   rig: {fileID: 0}
   col: {fileID: 0}
   HeatEffect: {fileID: 802755309224190398, guid: 2e41f7bf18825f2458db511836240f82, type: 3}

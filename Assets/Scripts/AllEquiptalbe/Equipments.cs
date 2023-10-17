@@ -49,7 +49,7 @@ public class Equipments : MonoBehaviour
     {
         IsEquiped += playerEquiped;
         DisEquiped += playerDisEquiped;
-        cooltimer = new CoolTimeSys();
+        cooltimer = transform.GetComponent<CoolTimeSys>();
     }
     protected virtual void Start()
     {

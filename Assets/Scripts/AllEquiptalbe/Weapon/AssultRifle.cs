@@ -9,23 +9,9 @@ public class AssultRifle : WeaponBAse
     ParticleSystem.ShapeModule parshape;
     GameManager gameManager;
     PlayerMove playermove;
+    Vector3 nuckup;
 
     public List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
-    int BulletCount
-    {
-        get
-        {
-            return collisionEvents.Count;
-        }
-        set
-        {
-            if (collisionEvents.Count < value)
-            {
-                BulletUse--;
-                Debug.Log("ÆÄÆ¼Å¬ °¹¼ö: " + BulletUse);
-            }
-        }
-    }
     bool fireActive = false;
     bool FireActive
     {
@@ -59,7 +45,7 @@ public class AssultRifle : WeaponBAse
         {
             if (bullet != value)
             {
-                playermove.xis -= 1f;
+                playermove.xis -= nuckback;
                 bullet = value;
                 if (bullet == 0)
                 {
@@ -117,6 +103,7 @@ public class AssultRifle : WeaponBAse
         base.OnEnable();
         UseDelegate += Fired;
         StopDelegate += stopFire;
+        Updater += () => { playermove.dot.localPosition = nuckup; };
     }
     protected override void Start()
     {
@@ -138,31 +125,39 @@ public class AssultRifle : WeaponBAse
     }
     void Fired()
     {
-        if (cooltimer.coolclocks[0].coolEnd)
-        {
-            par.Emit(1);
-            FireHandling();
-            cooltimer.CoolTimeStart(0, fireSpeed);
-        }
+        FireActive = true;
     }
     void FireHandling()
     {
-        parshape.angle = Angler;
-        Angler += 0.5f;
+        float x = UnityEngine.Random.Range(-1, 1.1f);
+        float y = UnityEngine.Random.Range(-1, 1.1f);
+        nuckup.x = x;
+        nuckup.y = y;
+        /*        parshape.angle = Angler;
+                Angler += 0.5f;*/
     }
     void stopFire()
     {
         FireActive = false;
         parshape.angle = 0;
         Angler = 0;
+        headDotToZero();
     }
 
     void FireUSe()
     {
-        FireActive = true;
-        par.Emit(1);
+        if (cooltimer.coolclocks[0].coolEnd)
+        {
+            par.Emit(1);
+            FireHandling();
+            cooltimer.CoolTimeStart(0, fireSpeed);
+            BulletUse--;
+        }
     }
-
+    void headDotToZero()
+    {
+        nuckup = Vector3.MoveTowards(playermove.dot.position, Vector3.zero, 5 * Time.deltaTime);
+    }
     void reLoad()
     {
 

@@ -12,14 +12,21 @@ public struct coolClock
 }
 public class CoolTimeSys : MonoBehaviour
 {
-    public coolClock[] coolclocks = new coolClock[5];
-    Action[] Checker = new Action[5];
+    [Header("쿨타임 시계 개수")]
+    public int CoolClocksCount = 5;
+    public coolClock[] coolclocks;
+    Action[] Checker;
     Action updateCoolTime;
     public float timeCount = 0f;
+    private void Awake()
+    {
+        Checker = new Action[CoolClocksCount];
+        coolclocks = new coolClock[CoolClocksCount];
+    }
     void Start()
     {
         updateCoolTime = WeWantNoNull;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < CoolClocksCount; i++)
         {
             coolclocks[i].time = 0f;
             coolclocks[i].coolStart = false;
@@ -33,7 +40,6 @@ public class CoolTimeSys : MonoBehaviour
     }
     public void CoolTimeStart(int index, float time)
     {
-        Debug.Log($"{index}쿨타임 시작.{time}");
         Checker[index] += () => { timeCheck(index, time); };
         if (startCheck())
         {
@@ -44,7 +50,6 @@ public class CoolTimeSys : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{index}동시 호출 시간{time} 초 만큼 추가");
             coolclocks[index].time += time;
         }
         updateCoolTime += Checker[index];
@@ -53,7 +58,6 @@ public class CoolTimeSys : MonoBehaviour
     {
         if (timeCount > time)
         {
-            Debug.Log($"{index}쿨타임이.{timeCount}에 끝남");
             coolclocks[index].time = 0f;
             coolclocks[index].coolEnd = true;
             coolclocks[index].coolStart = false;
@@ -63,7 +67,6 @@ public class CoolTimeSys : MonoBehaviour
             {
                 updateCoolTime -= timeCounting;
                 timeCount = 0f;
-                Debug.Log("모든 쿨이 종료되었다.");
             }
         }
     }

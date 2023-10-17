@@ -59,7 +59,7 @@ public class PlayerMove : MonoBehaviour
     public Transform IKHand;
     public Transform dot;
 
-    public CoolTimeSys coolsys;
+    CoolTimeSys coolsys;
 
     Rigidbody rig;
 
@@ -68,7 +68,7 @@ public class PlayerMove : MonoBehaviour
     Vector3 posi;
     Vector2 MoveDir;
     Vector3 defoltTransform;
-    public bool newState;
+    public bool CamHolder;
 
 
 
@@ -241,7 +241,7 @@ public class PlayerMove : MonoBehaviour
     #region OnEnable & OnDisable
     private void OnEnable()
     {
-        coolsys = new CoolTimeSys();
+        coolsys = transform.GetComponent<CoolTimeSys>();
         playerinput.Move.Enable();
         playerinput.Move.Fire.performed += UseHolding;
         playerinput.Move.Fire.canceled += UNUseHolding;
@@ -381,7 +381,7 @@ public class PlayerMove : MonoBehaviour
     {
         Vector3 pos = Vector3.zero;
         //마우스가 가운데를 향하도록 하는 옵션에 3항식을 써서  newState가 참이면 잠그고 참이 아니면 풀어준다.
-        Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.lockState = CamHolder ? CursorLockMode.Locked : CursorLockMode.None;
 
         pos = context.ReadValue<Vector2>();
         float multiply = headrotationSpeed * Time.deltaTime;
@@ -425,8 +425,8 @@ public class PlayerMove : MonoBehaviour
         void comback()
         {
             distance = pos - headto;
-            CamUpdownTransform.localPosition = Vector3.MoveTowards(pos,headto,speed*Time.fixedDeltaTime);
-            if(distance.sqrMagnitude < 0.1f)
+            CamUpdownTransform.localPosition = Vector3.MoveTowards(pos, headto, speed * Time.fixedDeltaTime);
+            if (distance.sqrMagnitude < 0.1f)
             {
                 checker -= comback;
             }
