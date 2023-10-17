@@ -52,13 +52,15 @@ public class Equiped : MonoBehaviour
     private void OnDisable()
     {
         plcam.IsEquitable -= AddGeartoInven;
-
     }
     private void Update()
     {
         animatorLayerWeight();
     }
 
+    /// <summary>
+    /// IK움직임 제어용
+    /// </summary>
     private void OnAnimatorIK()
     {
         if (layerState == 1)
@@ -173,7 +175,13 @@ public class Equiped : MonoBehaviour
             equiptableList[previous].StopDelegate?.Invoke();
         }
     }
-
+    public void ReAction()
+    {
+        if (equiptableList[previous] != null)
+        {
+            equiptableList[previous].ReAction?.Invoke();
+        }
+    }
     void AnimatorLayerSetter1()
     {
         animatorLayerWeightWeapon += Time.deltaTime / changingTime;

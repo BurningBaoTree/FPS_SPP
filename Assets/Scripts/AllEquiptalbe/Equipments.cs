@@ -5,11 +5,38 @@ using UnityEngine;
 
 public class Equipments : MonoBehaviour
 {
-    public CoolTimeSys cooltimer;
+    protected CoolTimeSys cooltimer;
 
+    public enum equipts
+    {
+        tools = 0,
+        weapons
+    }
+    public enum sidesellect
+    {
+        Player = 0,
+        Enemy
+    }
 
+    /// <summary>
+    /// 리지디 바디
+    /// </summary>
     public Rigidbody rig;
+
+    /// <summary>
+    /// 박스 콜라이더
+    /// </summary>
     public BoxCollider col;
+
+    /// <summary>
+    /// 장비 이름
+    /// </summary>
+    public string EquipterableName;
+
+    /// <summary>
+    /// 장비 설명
+    /// </summary>
+    public string EquipterableEplonation;
 
     /// <summary>
     /// 장착시 활성화되는 함수 모음
@@ -30,6 +57,11 @@ public class Equipments : MonoBehaviour
     /// 사용 버튼을 땔때 활성화 되는 함수 모음
     /// </summary>
     public Action StopDelegate;
+
+    /// <summary>
+    /// 재장전
+    /// </summary>
+    public Action ReAction;
 
     /// <summary>
     /// 업데이트용 함수 델리게이트

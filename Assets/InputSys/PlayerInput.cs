@@ -143,6 +143,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ReLoad"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8f3d90c-b670-4197-904e-712d7a0d28b2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -328,8 +337,19 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KM"",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6dcf7ca-9fd5-4587-b5fe-5db49068b3df"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""ReLoad"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -526,6 +546,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Move_Fire = m_Move.FindAction("Fire", throwIfNotFound: true);
         m_Move_Zoom = m_Move.FindAction("Zoom", throwIfNotFound: true);
         m_Move_Dash = m_Move.FindAction("Dash", throwIfNotFound: true);
+        m_Move_ReLoad = m_Move.FindAction("ReLoad", throwIfNotFound: true);
         // Ability
         m_Ability = asset.FindActionMap("Ability", throwIfNotFound: true);
         m_Ability_ability1 = m_Ability.FindAction("ability1", throwIfNotFound: true);
@@ -611,6 +632,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Move_Fire;
     private readonly InputAction m_Move_Zoom;
     private readonly InputAction m_Move_Dash;
+    private readonly InputAction m_Move_ReLoad;
     public struct MoveActions
     {
         private @PlayerInput m_Wrapper;
@@ -628,6 +650,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Move_Fire;
         public InputAction @Zoom => m_Wrapper.m_Move_Zoom;
         public InputAction @Dash => m_Wrapper.m_Move_Dash;
+        public InputAction @ReLoad => m_Wrapper.m_Move_ReLoad;
         public InputActionMap Get() { return m_Wrapper.m_Move; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -676,6 +699,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @ReLoad.started += instance.OnReLoad;
+            @ReLoad.performed += instance.OnReLoad;
+            @ReLoad.canceled += instance.OnReLoad;
         }
 
         private void UnregisterCallbacks(IMoveActions instance)
@@ -719,6 +745,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @ReLoad.started -= instance.OnReLoad;
+            @ReLoad.performed -= instance.OnReLoad;
+            @ReLoad.canceled -= instance.OnReLoad;
         }
 
         public void RemoveCallbacks(IMoveActions instance)
@@ -892,6 +921,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnReLoad(InputAction.CallbackContext context);
     }
     public interface IAbilityActions
     {

@@ -9,10 +9,14 @@ public class GameManager : Singleton<GameManager>
 
     Equiped playerequiped;
     public Equiped PlayerEquiped => playerequiped;
+
+    PlayerCam playercam;
+    public PlayerCam PlayerCam => playercam;
     private void OnEnable()
     {
         playermove = FindObjectOfType<PlayerMove>();
         playerequiped = FindObjectOfType<Equiped>();
+        playercam = FindObjectOfType<PlayerCam>();
     }
 }
 

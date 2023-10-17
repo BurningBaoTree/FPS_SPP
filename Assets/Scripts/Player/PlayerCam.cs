@@ -7,6 +7,8 @@ public class PlayerCam : MonoBehaviour
 {
     public Equipments equipments;
 
+    public LoockWhatIs isthant;
+
     bool UseAbleCheck = false;
 
     public Action IsUseAble;
@@ -14,18 +16,23 @@ public class PlayerCam : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<Equipments>() != null)
+        if (other.CompareTag("EquiptAble")&& equipments == null)
         {
             equipments = other.GetComponent<Equipments>();
+            isthant.gameObject.SetActive(true);
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        equipments = null;
+        if (equipments != null)
+        {
+            isthant.gameObject.SetActive(false);
+            equipments = null;
+        }
     }
     public void UseActiveatebyType()
     {
-        if(UseAbleCheck)
+        if (UseAbleCheck)
         {
             IsUseAble?.Invoke();
         }

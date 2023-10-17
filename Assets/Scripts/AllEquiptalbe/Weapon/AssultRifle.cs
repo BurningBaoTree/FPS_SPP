@@ -6,10 +6,29 @@ using UnityEngine;
 public class AssultRifle : WeaponBAse
 {
     ParticleSystem par;
-    ParticleSystem.ShapeModule parshape;
     GameManager gameManager;
     PlayerMove playermove;
     Vector3 nuckup;
+    float nuckgage = 0;
+    float Nuckgage
+    {
+        get
+        {
+            return nuckgage;
+        }
+        set
+        {
+            nuckgage = value;
+            if (nuckgage > nuckbackMax)
+            {
+                nuckgage = nuckbackMax;
+            }
+            else if (nuckgage < 0)
+            {
+                nuckgage = 0;
+            }
+        }
+    }
 
     public List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
     bool fireActive = false;
@@ -45,29 +64,12 @@ public class AssultRifle : WeaponBAse
         {
             if (bullet != value)
             {
-                playermove.xis -= nuckback;
                 bullet = value;
-                if (bullet == 0)
+                if (bullet < 0)
                 {
-                    fireAble = false;
+                    bullet = 0;
+                    FireAble = false;
                 }
-            }
-        }
-    }
-    float angleer = 0;
-    float maxAngle = 5f;
-    float Angler
-    {
-        get
-        {
-            return angleer;
-        }
-        set
-        {
-            angleer = value;
-            if (angleer > maxAngle)
-            {
-                angleer = maxAngle;
             }
         }
     }
@@ -87,13 +89,12 @@ public class AssultRifle : WeaponBAse
             }
         }
     }
-
+    bool recuvered = true;
 
     protected override void Awake()
     {
         base.Awake();
         par = GetComponent<ParticleSystem>();
-        parshape = par.shape;
         equipPos = new Vector3(-0.004f, 0.082f, 0.051f);
         equipRot = Quaternion.Euler(-118.702f, 91.269f, 14.657f);
         InitializeWeapon();
@@ -103,7 +104,11 @@ public class AssultRifle : WeaponBAse
         base.OnEnable();
         UseDelegate += Fired;
         StopDelegate += stopFire;
-        Updater += () => { playermove.dot.localPosition = nuckup; };
+        ReAction += reLoad;
+        Updater += () =>
+        {
+            playermove.dot.localPosition = nuckup;
+        };
     }
     protected override void Start()
     {
@@ -120,8 +125,6 @@ public class AssultRifle : WeaponBAse
     void InitializeWeapon()
     {
         bullet = maxbullet;
-        weaponName = "어썰트 라이플";
-        weaponIntroduce = "가장 보편적인 대화수단";
     }
     void Fired()
     {
@@ -129,38 +132,56 @@ public class AssultRifle : WeaponBAse
     }
     void FireHandling()
     {
-        float x = UnityEngine.Random.Range(-1, 1.1f);
-        float y = UnityEngine.Random.Range(-1, 1.1f);
+        float x = UnityEngine.Random.Range(-Nuckgage, Nuckgage);
+        float y = UnityEngine.Random.Range(-Nuckgage, Nuckgage);
         nuckup.x = x;
         nuckup.y = y;
+        nuckup.z = 50;
         /*        parshape.angle = Angler;
                 Angler += 0.5f;*/
     }
     void stopFire()
     {
         FireActive = false;
-        parshape.angle = 0;
-        Angler = 0;
         headDotToZero();
     }
 
     void FireUSe()
     {
-        if (cooltimer.coolclocks[0].coolEnd)
+        if (cooltimer.coolclocks[0].coolEnd && FireAble)
         {
+            Nuckgage += nuckback;
             par.Emit(1);
             FireHandling();
-            cooltimer.CoolTimeStart(0, fireSpeed);
+            cooltimer.CoolTimeStart(0, fireRate);
             BulletUse--;
+            playermove.xis -= Nuckgage;
         }
     }
     void headDotToZero()
     {
-        nuckup = Vector3.MoveTowards(playermove.dot.position, Vector3.zero, 5 * Time.deltaTime);
+        Vector3 def = new Vector3(0, 0, 50);
+        void backto()
+        {
+            if (recuvered)
+            {
+                nuckup = Vector3.MoveTowards(nuckup, def, Time.deltaTime);
+                Nuckgage -= Time.deltaTime * reliseSpeed;
+                if (nuckup.sqrMagnitude < 0.5f && Nuckgage == 0)
+                {
+                    Debug.Log("회복 완료");
+                    Updater -= backto;
+                    recuvered = true;
+                }
+            }
+        }
+        Updater += backto;
+        recuvered = false;
     }
     void reLoad()
     {
-
+        playermove.animator.SetTrigger("ReLoad");
+        bullet = maxbullet;
     }
     private void OnParticleCollision(GameObject other)
     {

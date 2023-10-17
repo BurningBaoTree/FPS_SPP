@@ -13,6 +13,17 @@ public class PlayerMove : MonoBehaviour
         jump
     }
 
+    public Action<string> stateChange;
+    public string statename;
+    public string StateName
+    {
+        get { return statename; }
+        set
+        {
+            statename = value;
+            stateChange.Invoke(statename);
+        }
+    }
     public State playerstate = 0;
     public State Playerstate
     {
@@ -25,12 +36,16 @@ public class PlayerMove : MonoBehaviour
             switch (playerstate)
             {
                 case State.Idel:
+
                     break;
                 case State.walk:
+
                     break;
                 case State.run:
+
                     break;
                 case State.jump:
+
                     break;
                 default:
                     break;
@@ -39,12 +54,16 @@ public class PlayerMove : MonoBehaviour
             switch (playerstate)
             {
                 case State.Idel:
+                    StateName = "일반";
                     break;
                 case State.walk:
+                    StateName = "걷기";
                     break;
                 case State.run:
+                    StateName = "달리기";
                     break;
                 case State.jump:
+                    StateName = "점프";
                     break;
                 default:
                     playerstate = 0;
@@ -156,6 +175,11 @@ public class PlayerMove : MonoBehaviour
                     Playerstate = State.jump;
                     UpdownCheck = false;
                 }
+                else if (RunCheck)
+                {
+                    Playerstate = State.run;
+                    UpdownCheck = true;
+                }
                 else if (WalkActive)
                 {
                     Playerstate = State.walk;
@@ -212,6 +236,7 @@ public class PlayerMove : MonoBehaviour
     public float xis = 0;
     float yis = 0;
 
+    public float holdAngle = 30;
     float xxis;
     float yxis;
     int ani;
@@ -222,7 +247,7 @@ public class PlayerMove : MonoBehaviour
 
 
 
-    Animator animator;
+    public Animator animator;
 
     Action checker;
     Action useAction;
@@ -253,6 +278,7 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.Jump.performed += JumpAction;
         playerinput.Move.Use.performed += UseAction;
         playerinput.Move.Use.canceled += UseCanceled;
+        playerinput.Move.ReLoad.performed += ReLoading;
 
         playerinput.Move.GearChanger4.performed += WeaponSellect5;
         playerinput.Move.GearChanger3.performed += WeaponSellect4;
@@ -264,6 +290,10 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.Drop.canceled += DropCanceled;
     }
 
+    private void Start()
+    {
+        Playerstate = State.Idel;
+    }
 
     private void OnDisable()
     {
@@ -276,6 +306,7 @@ public class PlayerMove : MonoBehaviour
         playerinput.Move.GearChanger3.performed -= WeaponSellect4;
         playerinput.Move.GearChanger4.performed -= WeaponSellect5;
 
+        playerinput.Move.ReLoad.performed -= ReLoading;
         playerinput.Move.Use.canceled -= UseCanceled;
         playerinput.Move.Use.performed -= UseAction;
         playerinput.Move.Jump.performed -= JumpAction;
@@ -327,6 +358,10 @@ public class PlayerMove : MonoBehaviour
     private void UNUseHolding(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         eqiSys.stopActionThis();
+    }
+    private void ReLoading(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        eqiSys.ReAction();
     }
     private void WeaponSellect1(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
