@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Test_Slider : MonoBehaviour
 {
     public PlayerMove ply;
+    public PlayerState state;
+    public Equiped eqSys;
     public Slider[] slider;
 
     private void Awake()
@@ -17,5 +19,20 @@ public class Test_Slider : MonoBehaviour
     private void Update()
     {
         slider[0].value = ply.dropgage;
+        if (eqSys.equiptableList[eqSys.previous] != null)
+        {
+            if (eqSys.equiptableList[eqSys.previous].type == Equipments.equipts.weapons)
+            {
+                Debug.Log("µø¿€¡ﬂ");
+                slider[1].gameObject.SetActive(true);
+                WeaponBAse wep = eqSys.equiptableList[eqSys.previous].GetComponent<WeaponBAse>();
+                slider[1].maxValue = wep.maxbullet;
+                slider[1].value = wep.bullet;
+            }
+        }
+        else
+        {
+            slider[1].gameObject.SetActive(false);
+        }
     }
 }

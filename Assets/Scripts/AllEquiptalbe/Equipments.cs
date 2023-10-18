@@ -12,11 +12,8 @@ public class Equipments : MonoBehaviour
         tools = 0,
         weapons
     }
-    public enum sidesellect
-    {
-        Player = 0,
-        Enemy
-    }
+
+    public equipts type;
 
     /// <summary>
     /// 리지디 바디
@@ -85,8 +82,8 @@ public class Equipments : MonoBehaviour
     }
     protected virtual void Start()
     {
-        IsEquiped += playerEquiped;
-        DisEquiped += playerDisEquiped;
+/*        IsEquiped += playerEquiped;
+        DisEquiped += playerDisEquiped;*/
     }
     protected virtual void OnDisable()
     {

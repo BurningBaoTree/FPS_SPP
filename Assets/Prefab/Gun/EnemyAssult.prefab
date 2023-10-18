@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6012660280367941833}
   m_Layer: 0
   m_Name: EnemyAssult
-  m_TagString: Weapon
+  m_TagString: EquiptAble
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,20 +94,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d04a9856969554ca0f921f84036ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rig: {fileID: 0}
-  col: {fileID: 0}
+  rig: {fileID: 911330454094829263}
+  col: {fileID: 911330454094829262}
   EquipterableName: "\uBD89\uC740 \uC5B4\uC370\uD2B8 \uB77C\uC774\uD50C"
   EquipterableEplonation: "\uC801\uC774 \uC4F0\uB358 \uB354\uB7EC\uC6B4 \uCD1D!"
-  rangeOfWeapon: 0
-  HeatEffect: {fileID: 802755309224190398, guid: 2e41f7bf18825f2458db511836240f82, type: 3}
+  rangeOfWeapon: 1
+  HeatEffect: {fileID: 802755309224190398, guid: eca7dfd213365a7469edf2f44c1c8a4f, type: 3}
   damage: 20
-  fireRate: 0.1
+  fireRate: 0.5
   bulletSpeed: 0
-  maxbullet: 35
-  bullet: 35
-  nuckback: 0.3
-  nuckbackMax: 1
-  reliseSpeed: 10
+  maxbullet: 20
+  bullet: 20
+  nuckback: 0.5
+  nuckbackMax: 3
+  reliseSpeed: 15
+  innerNuckbackControl: {x: 1, y: 15}
 --- !u!199 &5650993647975899294
 ParticleSystemRenderer:
   serializedVersion: 6

@@ -1252,6 +1252,7 @@ GameObject:
   - component: {fileID: 2378878510221559959}
   - component: {fileID: 8638842734040109805}
   - component: {fileID: 5699065423627421351}
+  - component: {fileID: 3077541882885573953}
   - component: {fileID: 2059291139310702566}
   - component: {fileID: 327845702}
   - component: {fileID: 1115162090}
@@ -1315,6 +1316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 560bb7f058253b94b8b8d53c7994c106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoolClocksCount: 5
   coolclocks:
   - time: 0
     coolStart: 0
@@ -1332,6 +1334,18 @@ MonoBehaviour:
     coolStart: 0
     coolEnd: 0
   timeCount: 0
+--- !u!114 &3077541882885573953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3046871833755341357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac8fffc067342024e9c96ed99a8132ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2059291139310702566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1368,18 +1382,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adef5e273c796ea41a8dd6beb92d3856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statename: 
   playerstate: 0
   Cameratransform: {fileID: 2840168574275113577}
   CamUpdownTransform: {fileID: 984047404161664344}
   IKHand: {fileID: 1861615229}
   dot: {fileID: 1331387193}
-  coolsys: {fileID: 0}
   CamHolder: 0
   speed: 5
   headrotationSpeed: 10
   xis: 0
+  holdAngle: 30
   dropgage: 0
   maxDropgage: 5
+  animator: {fileID: 0}
 --- !u!54 &1115162090
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1818,6 +1834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipments: {fileID: 0}
+  isthant: {fileID: 0}
 --- !u!136 &3916550637962486452
 CapsuleCollider:
   m_ObjectHideFlags: 0

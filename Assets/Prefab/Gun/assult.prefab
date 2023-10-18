@@ -98,7 +98,7 @@ MonoBehaviour:
   col: {fileID: 0}
   EquipterableName: "\uC5B4\uC370\uD2B8 \uB77C\uC774\uD50C"
   EquipterableEplonation: "\uAC00\uC7A5 \uBCF4\uD3B8\uC801\uC778 \uB300\uD654 \uC218\uB2E8!"
-  rangeOfWeapon: 0
+  rangeOfWeapon: 1
   HeatEffect: {fileID: 802755309224190398, guid: 2e41f7bf18825f2458db511836240f82, type: 3}
   damage: 20
   fireRate: 0.1

@@ -361,7 +361,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void ReLoading(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        eqiSys.ReAction();
+        eqiSys.ReActionThis();
     }
     private void WeaponSellect1(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {

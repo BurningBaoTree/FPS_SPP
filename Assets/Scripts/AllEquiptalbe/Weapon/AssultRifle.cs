@@ -89,6 +89,28 @@ public class AssultRifle : WeaponBAse
             }
         }
     }
+    bool reloading = false;
+    bool ReLoading
+    {
+        get
+        {
+            return reloading;
+        }
+        set
+        {
+            if (reloading != value)
+            {
+                reloading = value;
+                if (reloading)
+                {
+                    cooltimer.CoolTimeStart(1, 3);
+                    Updater += reloadAnimation;
+                    Updater += isLoaded;
+                }
+            }
+        }
+    }
+
     bool recuvered = true;
 
     protected override void Awake()
@@ -119,6 +141,7 @@ public class AssultRifle : WeaponBAse
     protected override void OnDisable()
     {
         base.OnDisable();
+        ReAction -= reLoad;
         StopDelegate -= stopFire;
         UseDelegate -= Fired;
     }
@@ -129,16 +152,15 @@ public class AssultRifle : WeaponBAse
     void Fired()
     {
         FireActive = true;
+        headDotToZero();
     }
     void FireHandling()
     {
-        float x = UnityEngine.Random.Range(-Nuckgage, Nuckgage);
-        float y = UnityEngine.Random.Range(-Nuckgage, Nuckgage);
+        float x = UnityEngine.Random.Range(-innerNuckbackControl.x * nuckback, innerNuckbackControl.x * nuckback);
+        float y = UnityEngine.Random.Range(0, innerNuckbackControl.y * nuckback);
         nuckup.x = x;
         nuckup.y = y;
         nuckup.z = 50;
-        /*        parshape.angle = Angler;
-                Angler += 0.5f;*/
     }
     void stopFire()
     {
@@ -161,32 +183,53 @@ public class AssultRifle : WeaponBAse
     void headDotToZero()
     {
         Vector3 def = new Vector3(0, 0, 50);
+        Vector3 distance;
         void backto()
         {
-            if (recuvered)
+            distance = nuckup - def;
+            nuckup = Vector3.MoveTowards(nuckup, def, Time.deltaTime * 50);
+            Nuckgage -= Time.deltaTime * reliseSpeed;
+            if (distance.sqrMagnitude < 0.5f && Nuckgage < 0.1f)
             {
-                nuckup = Vector3.MoveTowards(nuckup, def, Time.deltaTime);
-                Nuckgage -= Time.deltaTime * reliseSpeed;
-                if (nuckup.sqrMagnitude < 0.5f && Nuckgage == 0)
-                {
-                    Debug.Log("회복 완료");
-                    Updater -= backto;
-                    recuvered = true;
-                }
+                Debug.Log("도달");
+                Nuckgage = 0;
+                nuckup = def;
+                recuvered = true;
+                Updater -= backto;
             }
         }
-        Updater += backto;
-        recuvered = false;
+        if (recuvered)
+        {
+            Updater += backto;
+            recuvered = false;
+        }
     }
     void reLoad()
     {
-        playermove.animator.SetTrigger("ReLoad");
-        bullet = maxbullet;
+        ReLoading = true;
+    }
+    void isLoaded()
+    {
+        if (cooltimer.coolclocks[1].coolEnd)
+        {
+            bullet = maxbullet;
+            FireAble = true;
+            ReLoading = false;
+            Updater -= isLoaded;
+        }
+    }
+    void reloadAnimation()
+    {
+        nuckup = Vector3.MoveTowards(nuckup, -Vector3.up * 15, Time.deltaTime * 50);
+        if (nuckup.y < -14 && cooltimer.coolclocks[1].coolEnd)
+        {
+            headDotToZero();
+            Updater -= reloadAnimation;
+        }
     }
     private void OnParticleCollision(GameObject other)
     {
         int numCollisions = par.GetCollisionEvents(other, collisionEvents);
-
         foreach (ParticleCollisionEvent events in collisionEvents)
         {
             if (other.CompareTag("Wall") || other.CompareTag("Floor"))
@@ -197,7 +240,4 @@ public class AssultRifle : WeaponBAse
             }
         }
     }
-    /*    이후로 해야 할 일
-            쏠때마다 총알 차감
-            릴로딩*/
 }

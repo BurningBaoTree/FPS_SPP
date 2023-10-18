@@ -59,6 +59,7 @@ public class WeaponBAse : Equipments
     /// </summary>
     public float reliseSpeed;
 
+    public Vector2 innerNuckbackControl;
 
 
     protected override void Awake()

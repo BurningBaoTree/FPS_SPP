@@ -175,7 +175,7 @@ public class Equiped : MonoBehaviour
             equiptableList[previous].StopDelegate?.Invoke();
         }
     }
-    public void ReAction()
+    public void ReActionThis()
     {
         if (equiptableList[previous] != null)
         {
@@ -209,3 +209,4 @@ public class Equiped : MonoBehaviour
 
     }
 }
+//
