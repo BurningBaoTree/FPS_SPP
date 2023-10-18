@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d04a9856969554ca0f921f84036ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   rig: {fileID: 911330454094829263}
   col: {fileID: 911330454094829262}
   EquipterableName: "\uBD89\uC740 \uC5B4\uC370\uD2B8 \uB77C\uC774\uD50C"
@@ -101,10 +102,10 @@ MonoBehaviour:
   rangeOfWeapon: 1
   HeatEffect: {fileID: 802755309224190398, guid: eca7dfd213365a7469edf2f44c1c8a4f, type: 3}
   damage: 20
-  fireRate: 0.5
+  fireRate: 0.1
   bulletSpeed: 0
-  maxbullet: 20
-  bullet: 20
+  maxbullet: 150
+  bullet: 150
   nuckback: 0.5
   nuckbackMax: 3
   reliseSpeed: 15

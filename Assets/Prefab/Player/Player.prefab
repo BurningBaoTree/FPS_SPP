@@ -1388,7 +1388,7 @@ MonoBehaviour:
   CamUpdownTransform: {fileID: 984047404161664344}
   IKHand: {fileID: 1861615229}
   dot: {fileID: 1331387193}
-  CamHolder: 0
+  CamHolder: 1
   speed: 5
   headrotationSpeed: 10
   xis: 0
@@ -1806,7 +1806,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
-    NearClipPlane: 0.15
+    NearClipPlane: 0.2
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0

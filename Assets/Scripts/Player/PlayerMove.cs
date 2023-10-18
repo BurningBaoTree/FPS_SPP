@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
         set
         {
             statename = value;
-            stateChange.Invoke(statename);
+            stateChange?.Invoke(statename);
         }
     }
     public State playerstate = 0;
