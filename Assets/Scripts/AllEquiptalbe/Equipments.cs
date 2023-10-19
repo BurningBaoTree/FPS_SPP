@@ -36,6 +36,30 @@ public class Equipments : MonoBehaviour
     public string EquipterableEplonation;
 
     /// <summary>
+    /// 최대 총알
+    /// </summary>
+    public int maxbullet;
+
+    public Action bulletReduced;
+    /// <summary>
+    /// 현재 총알
+    /// </summary>
+    public int bullet;
+    public int Bullet
+    {
+        get { return bullet; 
+        }
+        set
+        {
+            if(bullet != value)
+            {
+                bullet = value;
+                bulletReduced?.Invoke();
+            }
+        }
+    }
+
+    /// <summary>
     /// 장착시 활성화되는 함수 모음
     /// </summary>
     public Action IsEquiped;
@@ -82,8 +106,7 @@ public class Equipments : MonoBehaviour
     }
     protected virtual void Start()
     {
-/*        IsEquiped += playerEquiped;
-        DisEquiped += playerDisEquiped;*/
+
     }
     protected virtual void OnDisable()
     {
@@ -94,6 +117,10 @@ public class Equipments : MonoBehaviour
     {
         Updater();
     }
+
+    /// <summary>
+    /// 플레이어가 장비했을때 장비에서 실행될 함수.
+    /// </summary>
     private void playerEquiped()
     {
         rig.velocity = Vector3.zero;
@@ -102,6 +129,9 @@ public class Equipments : MonoBehaviour
         this.transform.localPosition = equipPos;
         this.transform.localRotation = equipRot;
     }
+    /// <summary>
+    /// 플레이어가 장비를 해제했을때 장비에서 실행될 함수.
+    /// </summary>
     private void playerDisEquiped()
     {
         rig.isKinematic = false;

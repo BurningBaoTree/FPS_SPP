@@ -35,16 +35,6 @@ public class WeaponBAse : Equipments
     public float bulletSpeed;
 
     /// <summary>
-    /// 최대 총알
-    /// </summary>
-    public int maxbullet;
-
-    /// <summary>
-    /// 현재 총알
-    /// </summary>
-    public int bullet;
-
-    /// <summary>
     /// 반동
     /// </summary>
     public float nuckback;

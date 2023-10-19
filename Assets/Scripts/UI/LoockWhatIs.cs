@@ -15,6 +15,6 @@ public class LoockWhatIs : MonoBehaviour
     }
     private void OnEnable()
     {
-        textMeshProUGUI.text = cam.equipments.EquipterableName;
+        textMeshProUGUI.text = cam.Equipments.EquipterableName;
     }
 }

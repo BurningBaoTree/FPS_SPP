@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     public Action<string> stateChange;
-    public string statename;
+    string statename;
     public string StateName
     {
         get { return statename; }

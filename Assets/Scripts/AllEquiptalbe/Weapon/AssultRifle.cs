@@ -9,6 +9,7 @@ public class AssultRifle : WeaponBAse
     GameManager gameManager;
     PlayerMove playermove;
     Vector3 nuckup;
+    Vector3 def = new Vector3(0, 0, 50);
     float nuckgage = 0;
     float Nuckgage
     {
@@ -58,16 +59,16 @@ public class AssultRifle : WeaponBAse
     {
         get
         {
-            return bullet;
+            return Bullet;
         }
         set
         {
-            if (bullet != value)
+            if (Bullet != value)
             {
-                bullet = value;
-                if (bullet < 0)
+                Bullet = value;
+                if (Bullet < 0)
                 {
-                    bullet = 0;
+                    Bullet = 0;
                     FireAble = false;
                 }
             }
@@ -147,12 +148,12 @@ public class AssultRifle : WeaponBAse
     }
     void InitializeWeapon()
     {
-        bullet = maxbullet;
+        Bullet = maxbullet;
     }
     void Fired()
     {
         FireActive = true;
-        headDotToZero();
+        headDotToZero(50);
     }
     void FireHandling()
     {
@@ -165,7 +166,7 @@ public class AssultRifle : WeaponBAse
     void stopFire()
     {
         FireActive = false;
-        headDotToZero();
+        headDotToZero(50);
     }
 
     void FireUSe()
@@ -180,18 +181,17 @@ public class AssultRifle : WeaponBAse
             playermove.xis -= Nuckgage;
         }
     }
-    void headDotToZero()
+    void headDotToZero(float timespeed)
     {
-        Vector3 def = new Vector3(0, 0, 50);
         Vector3 distance;
         void backto()
         {
             distance = nuckup - def;
-            nuckup = Vector3.MoveTowards(nuckup, def, Time.deltaTime * 50);
+            nuckup = Vector3.MoveTowards(nuckup, def, Time.deltaTime * timespeed);
             Nuckgage -= Time.deltaTime * reliseSpeed;
             if (distance.sqrMagnitude < 0.5f && Nuckgage < 0.1f)
             {
-                Debug.Log("도달");
+                Debug.Log("끝남");
                 Nuckgage = 0;
                 nuckup = def;
                 recuvered = true;
@@ -206,13 +206,15 @@ public class AssultRifle : WeaponBAse
     }
     void reLoad()
     {
+        nuckup = def;
+        Nuckgage = 0;
         ReLoading = true;
     }
     void isLoaded()
     {
         if (cooltimer.coolclocks[1].coolEnd)
         {
-            bullet = maxbullet;
+            Bullet = maxbullet;
             FireAble = true;
             ReLoading = false;
             Updater -= isLoaded;
@@ -223,7 +225,7 @@ public class AssultRifle : WeaponBAse
         nuckup = Vector3.MoveTowards(nuckup, -Vector3.up * 15, Time.deltaTime * 50);
         if (nuckup.y < -14 && cooltimer.coolclocks[1].coolEnd)
         {
-            headDotToZero();
+            headDotToZero(50);
             Updater -= reloadAnimation;
         }
     }
@@ -232,6 +234,11 @@ public class AssultRifle : WeaponBAse
         int numCollisions = par.GetCollisionEvents(other, collisionEvents);
         foreach (ParticleCollisionEvent events in collisionEvents)
         {
+            if(other.CompareTag("Enemy"))
+            {
+                EnemyBase enemy = other.GetComponent<EnemyBase>();
+                enemy.HP -= damage;
+            }
             if (other.CompareTag("Wall") || other.CompareTag("Floor"))
             {
                 GameObject heat = Instantiate(HeatEffect);

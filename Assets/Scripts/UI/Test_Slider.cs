@@ -19,15 +19,15 @@ public class Test_Slider : MonoBehaviour
     private void Update()
     {
         slider[0].value = ply.dropgage;
-        if (eqSys.equiptableList[eqSys.previous] != null)
+        if (eqSys.equiptableList[eqSys.Previous] != null)
         {
-            if (eqSys.equiptableList[eqSys.previous].type == Equipments.equipts.weapons)
+            if (eqSys.equiptableList[eqSys.Previous].type == Equipments.equipts.weapons)
             {
                 Debug.Log("µø¿€¡ﬂ");
                 slider[1].gameObject.SetActive(true);
-                WeaponBAse wep = eqSys.equiptableList[eqSys.previous].GetComponent<WeaponBAse>();
+                WeaponBAse wep = eqSys.equiptableList[eqSys.Previous].GetComponent<WeaponBAse>();
                 slider[1].maxValue = wep.maxbullet;
-                slider[1].value = wep.bullet;
+                slider[1].value = wep.Bullet;
             }
         }
         else
