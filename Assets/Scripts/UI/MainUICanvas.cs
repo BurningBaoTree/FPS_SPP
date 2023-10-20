@@ -18,6 +18,12 @@ public class MainUICanvas : MonoBehaviour
     GameObject ChrossHaire;
     TextMeshProUGUI Timeleft;
     TextMeshProUGUI Score;
+    GameObject optionObject;
+
+    int min;
+    int sec;
+    int mil;
+
     void Awake()
     {
         playerState = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -29,11 +35,13 @@ public class MainUICanvas : MonoBehaviour
         Timeleft = transform.GetChild(7).GetComponent<TextMeshProUGUI>();
         Score = transform.GetChild(6).GetComponent<TextMeshProUGUI>();
         dot = transform.GetChild(2).gameObject;
+        optionObject = transform.GetChild(8).gameObject;
 
         bulletreamin.gameObject.SetActive(false);
         ChrossHaire.SetActive(false);
         reLodingSprite.gameObject.SetActive(false);
         gunName.gameObject.SetActive(false);
+        optionObject.SetActive(false);
     }
     void OnEnable()
     {
@@ -43,6 +51,13 @@ public class MainUICanvas : MonoBehaviour
         plmv.stateChange += StateChanger;
         eqi.SlotChanged += CompairEquiptslot;
         cam.IsawSomething += WhatisThatThing;
+        GameManager.Inst.ValuChangeScore += ScoreCount;
+        GameManager.Inst.TimeSys += timer;
+    }
+
+    void ScoreCount(int score)
+    {
+        Score.text = $"잡은 치킨 수 : {score:00000}";
     }
 
     /// <summary>
@@ -88,7 +103,6 @@ public class MainUICanvas : MonoBehaviour
     }
     void InitializedSlide()
     {
-        Debug.Log("호출");
         bulletreamin.maxValue = eqi.equiptableList[eqi.Previous].maxbullet;
         bulletreamin.value = eqi.equiptableList[eqi.Previous].Bullet;
         bulletRemainText.text = $"{bulletreamin.value:000}/{bulletreamin.maxValue:000}";
@@ -99,4 +113,13 @@ public class MainUICanvas : MonoBehaviour
         bulletreamin.value = eqi.equiptableList[eqi.Previous].Bullet;
         bulletRemainText.text = $"{bulletreamin.value:000}/{bulletreamin.maxValue:000}";
     }
+    void timer(float count)
+    {
+        sec = (int)count;
+        min = (int)(count / 60);
+        mil = (int)((count - sec) * 100);
+        sec = (int)(count % 60);
+        Timeleft.text = $"{min:00}:{sec:00}:{mil:00}";
+    }
+
 }

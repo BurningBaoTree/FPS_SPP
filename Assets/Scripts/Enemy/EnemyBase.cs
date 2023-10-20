@@ -20,6 +20,7 @@ public class EnemyBase : MonoBehaviour
                 if (hp < 0)
                 {
                     Die();
+                    GameManager.Inst.Score++;
                 }
             }
         }
@@ -33,6 +34,6 @@ public class EnemyBase : MonoBehaviour
     {
         DeadEfeect.transform.parent = null;
         DeadEfeect.SetActive(true);
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 }
