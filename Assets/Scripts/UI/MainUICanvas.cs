@@ -43,7 +43,7 @@ public class MainUICanvas : MonoBehaviour
         gunName.gameObject.SetActive(false);
         optionObject.SetActive(false);
     }
-    void OnEnable()
+    void Start()
     {
         eqi = GameManager.Inst.PlayerEquiped;
         plmv = GameManager.Inst.Playermove;
@@ -53,6 +53,7 @@ public class MainUICanvas : MonoBehaviour
         cam.IsawSomething += WhatisThatThing;
         GameManager.Inst.ValuChangeScore += ScoreCount;
         GameManager.Inst.TimeSys += timer;
+        ScoreCount(0);
     }
 
     void ScoreCount(int score)

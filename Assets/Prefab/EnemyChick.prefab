@@ -462,7 +462,7 @@ GameObject:
   - component: {fileID: 1575416751}
   - component: {fileID: 1575416753}
   - component: {fileID: 1575416752}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: EnemyChick
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -553,6 +553,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 50
+  speed: 5
+  jumpMax: 3
+  jumpstr: 2
+  dir: {x: 0, y: 0, z: 0}
+  jumpcheck: 0
 --- !u!54 &1575416752
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -87,7 +87,6 @@ public class PlayerMove : MonoBehaviour
     Vector3 posi;
     Vector2 MoveDir;
     Vector3 defoltTransform;
-    public bool CamHolder;
 
 
 
@@ -415,8 +414,6 @@ public class PlayerMove : MonoBehaviour
     private void HeadBanging(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         Vector3 pos = Vector3.zero;
-        //마우스가 가운데를 향하도록 하는 옵션에 3항식을 써서  newState가 참이면 잠그고 참이 아니면 풀어준다.
-        Cursor.lockState = CamHolder ? CursorLockMode.Locked : CursorLockMode.None;
 
         pos = context.ReadValue<Vector2>();
         float multiply = headrotationSpeed * Time.deltaTime;

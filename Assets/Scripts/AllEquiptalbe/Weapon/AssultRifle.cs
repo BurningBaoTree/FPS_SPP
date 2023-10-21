@@ -8,7 +8,7 @@ public class AssultRifle : WeaponBAse
     ParticleSystem par;
     GameManager gameManager;
     PlayerMove playermove;
-    Vector3 nuckup;
+    public Vector3 nuckup;
     Vector3 def = new Vector3(0, 0, 50);
     float nuckgage = 0;
     float Nuckgage
@@ -32,7 +32,7 @@ public class AssultRifle : WeaponBAse
     }
 
     public List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
-    bool fireActive = false;
+    public bool fireActive = false;
     bool FireActive
     {
         get
@@ -44,7 +44,7 @@ public class AssultRifle : WeaponBAse
             if (fireActive != value)
             {
                 fireActive = value;
-                if (fireActive)
+                if (fireActive && !ReLoading)
                 {
                     Updater += FireUSe;
                 }
@@ -75,7 +75,7 @@ public class AssultRifle : WeaponBAse
         }
     }
 
-    bool fireAble = true;
+    public bool fireAble = true;
     bool FireAble
     {
         get
@@ -90,7 +90,7 @@ public class AssultRifle : WeaponBAse
             }
         }
     }
-    bool reloading = false;
+    public bool reloading = false;
     bool ReLoading
     {
         get
@@ -112,7 +112,7 @@ public class AssultRifle : WeaponBAse
         }
     }
 
-    bool recuvered = true;
+    public bool recuvered = true;
 
     protected override void Awake()
     {
@@ -125,6 +125,9 @@ public class AssultRifle : WeaponBAse
     protected override void OnEnable()
     {
         base.OnEnable();
+    }
+    protected override void Start()
+    {
         UseDelegate += Fired;
         StopDelegate += stopFire;
         ReAction += reLoad;
@@ -132,9 +135,6 @@ public class AssultRifle : WeaponBAse
         {
             playermove.dot.localPosition = nuckup;
         };
-    }
-    protected override void Start()
-    {
         gameManager = GameManager.Inst;
         base.Start();
         playermove = gameManager.Playermove;
@@ -189,9 +189,12 @@ public class AssultRifle : WeaponBAse
             distance = nuckup - def;
             nuckup = Vector3.MoveTowards(nuckup, def, Time.deltaTime * timespeed);
             Nuckgage -= Time.deltaTime * reliseSpeed;
+            if (ReLoading)
+            {
+                Updater -= backto;
+            }
             if (distance.sqrMagnitude < 0.5f && Nuckgage < 0.1f)
             {
-                Debug.Log("³¡³²");
                 Nuckgage = 0;
                 nuckup = def;
                 recuvered = true;
@@ -206,9 +209,12 @@ public class AssultRifle : WeaponBAse
     }
     void reLoad()
     {
-        nuckup = def;
-        Nuckgage = 0;
-        ReLoading = true;
+        if (!ReLoading && !FireActive)
+        {
+            nuckup = def;
+            Nuckgage = 0;
+            ReLoading = true;
+        }
     }
     void isLoaded()
     {
@@ -234,7 +240,7 @@ public class AssultRifle : WeaponBAse
         int numCollisions = par.GetCollisionEvents(other, collisionEvents);
         foreach (ParticleCollisionEvent events in collisionEvents)
         {
-            if(other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy"))
             {
                 EnemyBase enemy = other.GetComponent<EnemyBase>();
                 enemy.HP -= damage;

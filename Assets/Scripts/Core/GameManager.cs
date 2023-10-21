@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
     public Action IsGameStart;
     public Action IsGameEnd;
     public bool gamecheck = false;
+    public bool gameplay = false;
     public bool GameCheck
     {
         get
@@ -24,14 +25,13 @@ public class GameManager : Singleton<GameManager>
             if (gamecheck != value)
             {
                 gamecheck = value;
-                if (gamecheck)
+                if (gamecheck && gameplay)
                 {
                     IsGameStart?.Invoke();
                 }
-                else
+                else if (!gamecheck && gameplay)
                 {
                     IsGameEnd?.Invoke();
-                    Cursor.lockState = CursorLockMode.None;
                 }
             }
         }
@@ -64,7 +64,7 @@ public class GameManager : Singleton<GameManager>
     PlayerCam playercam;
 
     public Action<int> ValuChangeScore;
-    int KilledChick = -1;
+    public int KilledChick = 0;
     public int Score
     {
         get
@@ -86,17 +86,37 @@ public class GameManager : Singleton<GameManager>
 
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += GameManageInitialize;
+    }
+    void GameManageInitialize(Scene scene, LoadSceneMode mode)
+    {
         playermove = FindObjectOfType<PlayerMove>();
         playerequiped = FindObjectOfType<Equiped>();
         playercam = FindObjectOfType<PlayerCam>();
-        Timecode = WaitTime;
-        TimeSys += timecount;
-        IsGameStart += () => { Timecode = timeset; };
-        IsGameEnd += () => { SceneController.Inst.LoadingActivate(3); };
-    }
-    private void Start()
-    {
-        Score = 0;
+        if ((playermove != null) && (playerequiped != null) && (playercam != null))
+        {
+            gameplay = true;
+            GameCheck = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Timecode = WaitTime;
+            TimeSys += timecount;
+            IsGameStart += () =>
+            {
+                Timecode = timeset;
+            };
+            IsGameEnd += () =>
+            {
+                SceneController.Inst.LoadingActivate(3);
+            };
+        }
+        else
+        {
+            gameplay = false;
+            Cursor.lockState = CursorLockMode.None;
+            TimeSys = (Timecode) => { };
+            IsGameStart = null;
+            IsGameEnd = null;
+        }
     }
     private void Update()
     {
@@ -106,12 +126,6 @@ public class GameManager : Singleton<GameManager>
     {
         count -= Time.deltaTime;
         Timecode = count;
-    }
-
-    void ResettheGameManager()
-    {
-        Timecode = WaitTime;
-        Score = 0;
     }
 }
 
