@@ -15,6 +15,6 @@ public class startControll : MonoBehaviour
 
     public void ExitButton()
     {
-        /*Application.Quit();*/
+        Application.Quit();
     }
 }

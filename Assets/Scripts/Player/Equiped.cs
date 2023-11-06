@@ -202,6 +202,7 @@ public class Equiped : MonoBehaviour
         if (equiptableList[num] != null && equiptableList[Previous] == null)
         {
             equiptableList[num].gameObject.SetActive(true);
+            equiptableList[num].IsOnHold?.Invoke();
             Previous = num;
             changingTime = 1;
             animatorLayerWeightWeapon = 0;
@@ -211,6 +212,8 @@ public class Equiped : MonoBehaviour
         else if (equiptableList[num] != null && num != Previous)
         {
             equiptableList[num].gameObject.SetActive(true);
+            equiptableList[num].IsOnHold?.Invoke();
+            equiptableList[Previous].DisOnHold?.Invoke();
             equiptableList[Previous].gameObject.SetActive(false);
             equiptableList[Previous].bulletReduced = null;
             Previous = num;
@@ -223,6 +226,7 @@ public class Equiped : MonoBehaviour
         {
             animatorLayerWeight -= AnimatorLayerSetter1;
             animatorLayerWeightWeapon = 0;
+            equiptableList[Previous].DisOnHold?.Invoke();
             equiptableList[Previous].gameObject.SetActive(false);
             equiptableList[Previous].bulletReduced = null;
             Previous = 5;
@@ -241,7 +245,8 @@ public class Equiped : MonoBehaviour
         {
             animatorLayerWeight -= AnimatorLayerSetter1;
             animatorLayerWeightWeapon = 0;
-            equiptableList[num].gameObject.SetActive(false);
+            equiptableList[num].DisOnHold?.Invoke();
+           equiptableList[num].gameObject.SetActive(false);
             equiptableList[num].bulletReduced = null;
             Previous = 5;
             animator.SetLayerWeight(1, 0);

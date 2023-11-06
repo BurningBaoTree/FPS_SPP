@@ -49,6 +49,9 @@ public class WeaponBAse : Equipments
     /// </summary>
     public float reliseSpeed;
 
+    /// <summary>
+    /// 내부 반동 벡터
+    /// </summary>
     public Vector2 innerNuckbackControl;
 
 

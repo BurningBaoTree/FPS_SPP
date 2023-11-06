@@ -13,7 +13,7 @@ public class GameManager : Singleton<GameManager>
     public Action IsGameStart;
     public Action IsGameEnd;
     public bool gamecheck = false;
-    public bool gameplay = false;
+    public bool IsGameAreRunning = false;
     public bool GameCheck
     {
         get
@@ -25,11 +25,11 @@ public class GameManager : Singleton<GameManager>
             if (gamecheck != value)
             {
                 gamecheck = value;
-                if (gamecheck && gameplay)
+                if (gamecheck && IsGameAreRunning)
                 {
                     IsGameStart?.Invoke();
                 }
-                else if (!gamecheck && gameplay)
+                else if (!gamecheck && IsGameAreRunning)
                 {
                     IsGameEnd?.Invoke();
                 }
@@ -88,6 +88,10 @@ public class GameManager : Singleton<GameManager>
     {
         SceneManager.sceneLoaded += GameManageInitialize;
     }
+    private void ResetChicken()
+    {
+        Score = 0;
+    }
     void GameManageInitialize(Scene scene, LoadSceneMode mode)
     {
         playermove = FindObjectOfType<PlayerMove>();
@@ -95,7 +99,8 @@ public class GameManager : Singleton<GameManager>
         playercam = FindObjectOfType<PlayerCam>();
         if ((playermove != null) && (playerequiped != null) && (playercam != null))
         {
-            gameplay = true;
+            ResetChicken();
+            IsGameAreRunning = true;
             GameCheck = false;
             Cursor.lockState = CursorLockMode.Locked;
             Timecode = WaitTime;
@@ -111,7 +116,7 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            gameplay = false;
+            IsGameAreRunning = false;
             Cursor.lockState = CursorLockMode.None;
             TimeSys = (Timecode) => { };
             IsGameStart = null;

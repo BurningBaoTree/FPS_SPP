@@ -40,7 +40,11 @@ public class Equipments : MonoBehaviour
     /// </summary>
     public int maxbullet;
 
+    /// <summary>
+    /// 총알 상태에 변동이 왔을때 실행될 델리게이트
+    /// </summary>
     public Action bulletReduced;
+
     /// <summary>
     /// 현재 총알
     /// </summary>
@@ -68,6 +72,16 @@ public class Equipments : MonoBehaviour
     /// 장착 해제시 활성화되는 함수 모음
     /// </summary>
     public Action DisEquiped;
+
+    /// <summary>
+    /// 손에 쥐고있을때 델리게이트
+    /// </summary>
+    public Action IsOnHold;
+
+    /// <summary>
+    /// 손에서 해제할때 델리게이트
+    /// </summary>
+    public Action DisOnHold;
 
     /// <summary>
     /// 사용 버튼 누를시 활성화되는 함수 모음
